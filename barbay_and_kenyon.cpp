@@ -8,17 +8,19 @@
 template <typename T1, typename T2>
 int barbayKenyon(T1 *sets, T2 k)
 {
-    // set eliminator element in 0,0 
+    // set eliminator element in [0,0], first element of first set
     T2 e = sets[0].elements[0];
-    int i = 1; // set index
+    // Set index
+    int i = 1;
+    // ocurrences of e
     int occr = 1;
 
-    int n = 0;
-
+    int n = 0; // -> Eliminar
+    // Init actual elements and size of initial set
     T2* actual_set=sets[i].elements;
     int size = sets[i].size;
 
-    while (e < 1909877961){
+    while ( e != -1 ){
         cout << "i: "<< i <<"\n";
         // position of e in i-set
         int pos = exponentialSearch(actual_set, size, e);
@@ -33,29 +35,35 @@ int barbayKenyon(T1 *sets, T2 k)
             }
         } 
         if(occr == k || actual_set[pos] != e){
+            // Position remain and size of next set
             int next_set_pos = sets[i].pos;
             int next_set_size = sets[i].size;
-            if (next_set_pos == next_set_size-1)
+
+            // No elements remain in the smallest set
+            if (next_set_pos == next_set_size-1){
+                e = -1;
                 return 0;
-                  
-            if (occr ==k){   
+            }
+
+            // e is part of sets intersection      
+            if (occr == k){   
                 e = actual_set[pos+1];
                 cout << "nuevo e: " << e << "\n";
                 sets[i].pos = pos+1;
             }
-                
-            else{
-                if (next_set_pos == next_set_size-1)
-                    return 0;
+            // e is not found in actual set
+            else{   
+                // pos it's a succesor index of e
                 e = actual_set[pos];
                 sets[i].pos = pos;
                 cout << "nuevo e: " << e << "\n";
                 
             }
+            // restart occurrences
             occr = 1;
         }
         cout << "-------------------\n";
-        //if (n==5) break;
+        // Cyclical index of sets
         i = (i+1)%k;
         actual_set = sets[i].elements;
         size = sets[i].size;

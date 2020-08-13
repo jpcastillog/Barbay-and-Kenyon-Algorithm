@@ -21,6 +21,7 @@ int recursiveBinarySearch(T arr[], int l, int r, T x, int size)
   
         return recursiveBinarySearch(arr, mid+1, r, x, size); 
     } 
+    // if the element not in a set 
     if (l > size-1){
         return r;
     }
@@ -91,7 +92,7 @@ int exponentialSearch(T arr[], int n, T x)
 template int exponentialSearch<int>(int arr[], int n, int x);
 
 
-/* ---------------------Intervals implemetantions---------------------*/
+/* --------------------- Intervals implemetantions ---------------------*/
 
 template<typename T> 
 int intervalExponentialSearch(Interval<T> arr[], int n , Interval<T> x)

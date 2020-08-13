@@ -10,6 +10,7 @@ template <typename T>class Set{
         int size;
         T *elements;
         int pos;
+        // Constructors
         Set(){
             pos=0;
         }
