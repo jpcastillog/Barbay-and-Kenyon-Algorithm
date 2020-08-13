@@ -5,8 +5,8 @@
 
 //using namespace std;
 
-template <typename T1, typename T2>
-int barbayKenyon(T1 *sets, T2 k)
+template <typename T1, typename T2, typename T3>
+int barbayKenyon(T1 *sets, T2 k, list<T3> *intersection)
 {
     // set eliminator element in [0,0], first element of first set
     T2 e = sets[0].elements[0];
@@ -31,6 +31,7 @@ int barbayKenyon(T1 *sets, T2 k)
             sets[i].pos = pos;
             if(occr == k){
                 n+=1;
+                intersection -> push_back(e);
                 cout << "elemento de la intersección: " << e << "\n";
             }
         } 
@@ -87,7 +88,15 @@ int main(){
     sets[3] = Set<int>(6,d);
     int  n = 6;
     int x = 3;
+    list<int> intersection; 
     //exponentialSearch(a, n, x);
-    barbayKenyon(sets, k);
+    barbayKenyon(sets, k, &intersection);
+    cout << "Intersection set:" << "\n" << "{ ";
+    list<int>::iterator it;
+    for (it = intersection.begin(); it != intersection.end(); it++){
+        cout << *it << " "; 
+    }
+    cout <<"}" << "\n";
+    
     return 0;
 }

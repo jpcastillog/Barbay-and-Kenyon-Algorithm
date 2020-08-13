@@ -74,6 +74,23 @@ int iterativeBinarySearch(T array[], int low, int high, T x, int size)
 template int iterativeBinarySearch<int>(int array[], int low, int high, int x, int size);
 
 
+template<typename T>
+int linearSearch(T arr[], int n, T x){
+    if(arr[0] > x){
+        return 1;
+    }
+    for(int i=0; i < n; i++){
+        if (arr[i] == x)
+            return i;
+        if (arr[i] > x)
+            return i+1;
+    }
+    return 0;
+}
+//Instantation of template function
+template int linearSearch<int>(int arr[], int n, int x);
+
+
 template<typename T> 
 int exponentialSearch(T arr[], int n, T x) 
 { 
