@@ -6,6 +6,13 @@
 
 using namespace std;
 
+
+/* 
+        All functions to search return the index of element 
+        in array or succesor if not in array
+ */
+
+
 template <typename T>
 int recursiveBinarySearch(T arr[], int l, int r, T x, int size) 
 { 
@@ -28,6 +35,7 @@ int recursiveBinarySearch(T arr[], int l, int r, T x, int size)
     if (r < 0){
         return l;
     }
+    // check
     int delta_l = abs(arr[l] - x);
     int delta_r = abs(arr[r] - x);
     if (delta_l > x && delta_r > x){
@@ -76,16 +84,19 @@ template int iterativeBinarySearch<int>(int array[], int low, int high, int x, i
 
 template<typename T>
 int linearSearch(T arr[], int n, T x){
-    if(arr[0] > x){
-        return 1;
-    }
+
     for(int i=0; i < n; i++){
-        if (arr[i] == x)
+        // if x in arr return index of x in arr
+        if (arr[i] == x){
+            return i;   
+        }
+        // if x not in arr return succesor index
+        if (arr[i] > x){
             return i;
-        if (arr[i] > x)
-            return i+1;
+        }    
     }
-    return 0;
+    
+    return n-1;
 }
 //Instantation of template function
 template int linearSearch<int>(int arr[], int n, int x);

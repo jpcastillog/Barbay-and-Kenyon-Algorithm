@@ -23,7 +23,8 @@ int barbayKenyon(T1 *sets, T2 k, list<T3> *intersection)
     while ( e != -1 ){
         cout << "i: "<< i <<"\n";
         // position of e in i-set
-        int pos = exponentialSearch(actual_set, size, e);
+        // int pos = exponentialSearch(actual_set, size, e);
+        int pos = linearSearch(actual_set, size, e);
         cout << "pos: " << pos << "\n"; 
         cout << "e: " << e << "\n";
         if (actual_set[pos] == e){
@@ -73,6 +74,39 @@ int barbayKenyon(T1 *sets, T2 k, list<T3> *intersection)
     return 0;
 }
 
+
+template <typename T1, typename T2, typename T3>
+int forceBruteIntersection(T1 *sets, T2 k, list<T3> *intersection){
+    // find smallest set to intersect
+    int min = sets[0].size;
+    int set_index = 0;
+    for(int i=0; i < k; ++i){
+        if (sets[i].size < min){
+            min = sets[i].size;
+            set_index = i;
+        }
+    }
+    // Search elements of smallest set in a rest of sets
+    T1 smallest_set = sets[set_index];
+    for(int i=0; i < smallest_set.size; ++i){
+        T3 e = smallest_set.elements[i];
+        int occr = 1;
+        for(int j=0; j < k; ++j){
+            if (j != set_index){
+                T1 set_to_search = sets[j];
+                int pos = linearSearch(set_to_search.elements, set_to_search.size, e);
+                if (set_to_search.elements[pos] == e){
+                    occr++;
+                    if (occr == k){
+                        intersection -> push_back(e);
+                    }
+                }
+            }
+        }
+    }
+    return 0;
+}
+
 int main(){
     int k = 4;
     Set <int> sets[k];
@@ -86,12 +120,12 @@ int main(){
     sets[1] = Set<int>(3,b);
     sets[2] = Set<int>(4,c);
     sets[3] = Set<int>(6,d);
-    int  n = 6;
-    int x = 3;
+
     list<int> intersection; 
-    //exponentialSearch(a, n, x);
-    barbayKenyon(sets, k, &intersection);
-    cout << "Intersection set:" << "\n" << "{ ";
+    // barbayKenyon(sets, k, &intersection);
+    forceBruteIntersection(sets, k, &intersection);
+    
+    cout << "Intersection Set:" << "\n" << "{ ";
     list<int>::iterator it;
     for (it = intersection.begin(); it != intersection.end(); it++){
         cout << *it << " "; 
