@@ -14,6 +14,7 @@ template <typename T>class Set{
         Set(){
             pos=0;
         }
+         
         Set(int size, T *array){
             Set::pos = 0;
             Set::size = size;
@@ -22,15 +23,19 @@ template <typename T>class Set{
         }
 };
 
-
 template <typename T>class Interval{
     public:
         T low;
         T high;
-        //Constructor    
+        //Constructor  
+        Interval(){
+            Interval::low = -1;
+            Interval::high = -1;
+        } 
         Interval(T low, T high){
             Interval::low = low;
             Interval::high = high;
         }
 };
+
 #endif

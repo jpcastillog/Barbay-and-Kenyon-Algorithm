@@ -12,3 +12,6 @@ search_algorithms.o: search_algorithms.cpp
 
 clean:
 	rm -f core *.o 
+
+run:
+	./test
