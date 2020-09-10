@@ -112,34 +112,32 @@ int forceBruteIntersection(T1 *sets, int k, list<T2> *intersection){
 template <typename T>
 int intervalBarbayKenyon(IntervalSet<T> *sets, int k, list<Interval<T>> *intersection)
 {
-    // set eliminator element in [0,0], first element of first set
-    Interval<T> e = sets[0].elements[0];
-    // Set index
-    int i = 1;
-    // ocurrences of e
-    int occr = 1;
+    Interval<T> e = sets[0].elements[0]; // set eliminator element in [0,0], first element of first set
+    sets[0].pos = 1; // mark first element of first set as visited
 
-    int n = 0; // -> Eliminar
-    // Init actual elements and size of initial set
-    Interval<T>* actual_set=sets[i].elements;
+    int i = 1;  // Set index
+    int occr = 1;  // ocurrences of e
     int size = sets[i].size;
+
+    IntervalSet<T> actual_set = sets[i]; // Init actual elements and size of initial set
 
     while ( 1 ){
         Interval<T> intersect;
+        
         cout << "i: "<< i <<"\n";
+        
         // position of e in i-set
-        // int pos = exponentialSearch(actual_set, size, e);
-        int pos = intervalExponentialSearch(actual_set, size, e, &intersect);
+        int pos = intervalExponentialSearch(actual_set.elements, size, e, &intersect, actual_set.pos);
         cout << "pos: " << pos << "\n"; 
         cout << "e: [" << e.low << "," << e.high << "]\n";
+
         if (intersect.low != -1){
             cout<<"se encontro interseccion\n";
             e.low = intersect.low;
             e.high = intersect.high;
-            occr +=1;
-            sets[i].pos = pos;
+            occr += 1;
+            sets[i].pos = pos + 1;
             if(occr == k){
-                n+=1;
                 intersection -> push_back(e);
                 cout << "elemento de la intersección: [" << e.low << "," << e.high << "]\n";
             }
@@ -151,22 +149,29 @@ int intervalBarbayKenyon(IntervalSet<T> *sets, int k, list<Interval<T>> *interse
 
             // No elements remain in the smallest set
             if (next_set_pos == next_set_size-1){
-                // e = -1;
                 return 0;
             }
 
             // e is part of sets intersection      
-            if (occr == k){   
-                e = actual_set[pos+1];
-                cout << "nuevo e: [" << e.low << "," << e.high << "]\n";
-                sets[i].pos = pos+1;
+            if (occr == k){
+                if (e.high < actual_set.elements[pos].high){
+                    e.low = e.high ;
+                    e.high = actual_set.elements[pos].high;
+                    cout << "nuevo e: [" << e.low << "," << e.high << "]\n";
+                }
+                else{
+                    e = actual_set.elements[pos+1];
+                    cout << "nuevo e: [" << e.low << "," << e.high << "]\n";
+                    sets[i].pos = pos+1;   
+                }
             }
+            
             // e is not found in actual set
             else{   
                 // pos it's a succesor index of e
-                e = actual_set[pos];
+                e = actual_set.elements[pos];
                 sets[i].pos = pos;
-                cout <<"intersect--> [" << intersect.low << "," << intersect.high << "]\n";
+                cout <<"intersect --> [" << intersect.low << "," << intersect.high << "]\n";
                 cout << "nuevo e: [" << e.low << "," << e.high << "]\n";
                 
             }
@@ -176,7 +181,7 @@ int intervalBarbayKenyon(IntervalSet<T> *sets, int k, list<Interval<T>> *interse
         cout << "-------------------\n";
         // Cyclical index of sets
         i = (i+1)%k;
-        actual_set = sets[i].elements;
+        actual_set = sets[i];
         size = sets[i].size;
     }
 

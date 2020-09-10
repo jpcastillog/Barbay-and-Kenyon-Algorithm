@@ -156,28 +156,28 @@ template int if_intersection<int>(Interval<int> a, Interval<int> b, Interval<int
 
 
 template<typename T> 
-int intervalExponentialSearch(Interval<T> arr[], int n , Interval<T> x, Interval<T>* intersection)
+int intervalExponentialSearch(Interval<T> arr[], int n , Interval<T> x, Interval<T>* intersection, int initial_position)
 {   
     Interval <T> interval_intersection;
-    int if_intersect = if_intersection(arr[0], x, intersection); 
+    int if_intersect = if_intersection(arr[initial_position], x, intersection); 
     if (if_intersect){
         // intersection -> low = interval_intersection;
-        return 0;
-    } 
+        return initial_position;
+    }
 
     if (arr[n-1].high < x.low) {
         intersection -> low = -1;
         intersection -> high = -1;
         return n-1;
     }
-  
-    int i = 1; 
+    
+    int i = initial_position + 1; 
     while (i < n && arr[i].high >= x.low) 
         i = i*2;
   
     return intervalBinarySearch(arr, i/2, min(i, n), x, n, intersection);
 }
-template int intervalExponentialSearch<int>(Interval<int> arr[], int n, Interval<int> x, Interval<int>* intersection);
+template int intervalExponentialSearch<int>(Interval<int> arr[], int n, Interval<int> x, Interval<int>* intersection, int initial_position);
 
 
 template<typename T>
