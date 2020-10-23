@@ -155,31 +155,6 @@ int if_intersection(Interval<T> a, Interval<T> b, Interval<T>* intersection)
 template int if_intersection<int>(Interval<int> a, Interval<int> b, Interval<int>* intersection);
 
 
-template<typename T> 
-int intervalExponentialSearch(Interval<T> arr[], int n , Interval<T> x, Interval<T>* intersection, int initial_position)
-{   
-    Interval <T> interval_intersection;
-    int if_intersect = if_intersection(arr[initial_position], x, intersection); 
-    if (if_intersect){
-        // intersection -> low = interval_intersection;
-        return initial_position;
-    }
-
-    if (arr[n-1].high < x.low) {
-        intersection -> low = -1;
-        intersection -> high = -1;
-        return n-1;
-    }
-    
-    int i = initial_position + 1; 
-    while (i < n && arr[i].high >= x.low) 
-        i = i*2;
-  
-    return intervalBinarySearch(arr, i/2, min(i, n), x, n, intersection);
-}
-template int intervalExponentialSearch<int>(Interval<int> arr[], int n, Interval<int> x, Interval<int>* intersection, int initial_position);
-
-
 template<typename T>
 int intervalBinarySearch(Interval<T> array[], int low, int high, Interval<T> x, int size, Interval<T>* intersection)
 {
@@ -208,3 +183,28 @@ int intervalBinarySearch(Interval<T> array[], int low, int high, Interval<T> x, 
     return array[low].high<array[high].low ? high : low;
 }
 template int intervalBinarySearch<int>(Interval<int> array[], int low, int high, Interval<int> x, int size, Interval<int>* intersection);
+
+
+template<typename T> 
+int intervalExponentialSearch(Interval<T> arr[], int n , Interval<T> x, Interval<T>* intersection, int initial_position)
+{   
+    Interval <T> interval_intersection;
+    int if_intersect = if_intersection(arr[initial_position], x, intersection); 
+    if (if_intersect){
+        // intersection -> low = interval_intersection;
+        return initial_position;
+    }
+
+    if (arr[n-1].high < x.low) {
+        intersection -> low = -1;
+        intersection -> high = -1;
+        return n-1;
+    }
+    
+    int i = initial_position + 1; 
+    while (i < n && arr[i].high >= x.low) 
+        i = i*2;
+  
+    return intervalBinarySearch(arr, i/2, min(i, n), x, n, intersection);
+}
+template int intervalExponentialSearch<int>(Interval<int> arr[], int n, Interval<int> x, Interval<int>* intersection, int initial_position);

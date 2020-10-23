@@ -110,7 +110,7 @@ int forceBruteIntersection(T1 *sets, int k, list<T2> *intersection){
 
 
 template <typename T>
-int intervalBarbayKenyon(IntervalSet<T> *sets, int k, list<Interval<T>> *intersection)
+int intervalBarbayKenyon(IntervalSet<T> *sets, int k, list< Interval<T> > *intersection)
 {
     Interval<T> e = sets[0].elements[0]; // set eliminator element in [0,0], first element of first set
     sets[0].pos = 1; // mark first element of first set as visited
@@ -223,11 +223,11 @@ int main(){
     // barbayKenyon(sets, k, &intersection);
     // forceBruteIntersection(sets, k, &intersection);
     
-    list<Interval<int>> intersection;
+    list< Interval<int> > intersection;
     intervalBarbayKenyon(sets, 2, &intersection);
 
     cout << "Intersection Set:" << "\n" << "{ ";
-    list<Interval<int>>::iterator it;
+    list< Interval<int> >::iterator it;
     for (it = intersection.begin(); it != intersection.end(); it++){
         cout <<"[" << it->low << "," << it->high << "] "; 
     }

@@ -11,7 +11,7 @@ search_algorithms.o: search_algorithms.cpp
 	$(CC) $(CFLAGS) -c search_algorithms.cpp
 
 clean:
-	rm -f core *.o 
+	rm -f core *.o test
 
 run:
 	./test
