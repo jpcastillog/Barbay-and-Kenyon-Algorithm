@@ -3,6 +3,7 @@
 #include "set_class.h"
 #include "interval_set_class.h"
 #include "search_algorithms.h"
+#include <queue>
 
 //using namespace std;
 
@@ -231,7 +232,25 @@ int main(){
     for (it = intersection.begin(); it != intersection.end(); it++){
         cout <<"[" << it->low << "," << it->high << "] "; 
     }
+
     cout <<"}" << "\n";
     
+
+    // Test min heap
+    priority_queue< Interval<int>, vector< Interval <int> >, greater< Interval <int> > > Q;
+    Q.push(interval1);
+    Q.push(interval2);
+
+    while (!Q.empty()) { 
+  
+        Interval<int> p = Q.top(); 
+  
+        Q.pop();
+        cout << p.low << " " << p.high << "\n"; 
+    }
+    
+    cout << endl;
+
+
     return 0;
 }
