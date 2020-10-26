@@ -156,7 +156,7 @@ template int if_intersection<int>(Interval<int> a, Interval<int> b, Interval<int
 
 
 template<typename T>
-int intervalBinarySearch(Interval<T> array[], int low, int high, Interval<T> x, int size, Interval<T>* intersection)
+int intervalBinarySearch(vector< Interval<T> > &array, int low, int high, Interval<T> x, int size, Interval<T>* intersection)
 {
     while (low <= high)
 	{
@@ -182,11 +182,11 @@ int intervalBinarySearch(Interval<T> array[], int low, int high, Interval<T> x, 
     
     return array[low].high<array[high].low ? high : low;
 }
-template int intervalBinarySearch<int>(Interval<int> array[], int low, int high, Interval<int> x, int size, Interval<int>* intersection);
+template int intervalBinarySearch<int>(vector< Interval<int> > &array, int low, int high, Interval<int> x, int size, Interval<int>* intersection);
 
 
 template<typename T> 
-int intervalExponentialSearch(Interval<T> arr[], int n , Interval<T> x, Interval<T>* intersection, int initial_position)
+int intervalExponentialSearch(vector< Interval<T> > &arr, int n , Interval<T> x, Interval<T>* intersection, int initial_position)
 {   
     Interval <T> interval_intersection;
     int if_intersect = if_intersection(arr[initial_position], x, intersection); 
@@ -207,4 +207,4 @@ int intervalExponentialSearch(Interval<T> arr[], int n , Interval<T> x, Interval
   
     return intervalBinarySearch(arr, i/2, min(i, n), x, n, intersection);
 }
-template int intervalExponentialSearch<int>(Interval<int> arr[], int n, Interval<int> x, Interval<int>* intersection, int initial_position);
+template int intervalExponentialSearch<int>(vector< Interval<int> > &arr, int n, Interval<int> x, Interval<int>* intersection, int initial_position);

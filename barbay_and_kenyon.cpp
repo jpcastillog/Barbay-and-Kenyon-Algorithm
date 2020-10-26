@@ -1,9 +1,11 @@
 #include <iostream> 
 #include <list>
+#include <queue>
+#include <vector>
 #include "set_class.h"
 #include "interval_set_class.h"
 #include "search_algorithms.h"
-#include <queue>
+#include "DIP.h"
 
 //using namespace std;
 
@@ -200,11 +202,11 @@ int main(){
     // int c[] = {1,3,8,10};
     // int d[] = {1,2,3,4,5,8};
 
-    Interval<int> a[] = {Interval<int>(1,2), Interval<int>(3,7)};
-    Interval<int> b[] = {Interval<int>(2,5), Interval<int>(6,7), Interval<int>(8,10)};
+    vector< Interval<int> > a {Interval<int>(1,2), Interval<int>(3,7)};
+    vector< Interval<int> > b {Interval<int>(2,5), Interval<int>(6,7), Interval<int>(8,10)};
 
-    sets[0] = IntervalSet<int>(2,a);
-    sets[1] = IntervalSet<int>(3,b);
+    sets[0] = IntervalSet<int>(2, a);
+    sets[1] = IntervalSet<int>(3, b);
     // sets[2] = Set<int>(4,c);
     // sets[3] = Set<int>(6,d);
 
@@ -237,11 +239,11 @@ int main(){
     
 
     // Test min heap
-    priority_queue< Interval<int>, vector< Interval <int> >, greater< Interval <int> > > Q;
+    /* priority_queue< Interval<int>, vector< Interval <int> >, greater< Interval <int> > > Q;
     Q.push(interval1);
     Q.push(interval2);
 
-    while (!Q.empty()) { 
+    while (!Q.empty()) { 1
   
         Interval<int> p = Q.top(); 
   
@@ -250,7 +252,14 @@ int main(){
     }
     
     cout << endl;
+ */
 
+    // test DIP
+    vector< IntervalSet<int> > partitions;
 
+    vector< Interval<int> > a2 {Interval<int>(3,7), Interval<int>(1,2)};
+    IntervalSet<int> set(2, a2);
+    DIP<int>(&set, partitions);
+    cout << "Primer elemento en a2: " << "[" << set.elements[0].low <<", "<< set.elements[0].high << "]" << endl;
     return 0;
 }

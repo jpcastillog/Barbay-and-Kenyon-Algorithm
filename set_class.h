@@ -38,9 +38,9 @@ template <typename T>class Interval{
         }
 };
 
-template <typename T>
+/* template <typename T>
 bool operator>(const Interval<T>& interval1, const Interval<T>& interval2){
     return interval1.high > interval2.high;
-}
+} */
 
 #endif

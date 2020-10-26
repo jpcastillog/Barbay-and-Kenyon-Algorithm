@@ -2,6 +2,7 @@
 #define SEARCH_ALGORITHMS_H_
 
 #include "set_class.h"
+#include <vector>
 
 template<typename T>
 int recursiveBinarySearch(T arr[], int l, int r, T x, int size);
@@ -19,9 +20,12 @@ template<typename T>
 int if_intersection(Interval<T> a, Interval<T> b, Interval<T>* intersection);
 
 template<typename T>
-int intervalExponentialSearch(Interval<T> arr[], int n , Interval<T> x, Interval<T>* intersection, int initial_position);
+int intervalExponentialSearch(vector< Interval<T> > &arr, int n , Interval<T> x, Interval<T>* intersection, int initial_position);
 
 template<typename T>
-int intervalBinarySearch(T array[], int low, int high, T x, int size, Interval<T>* intersection);
+int intervalBinarySearch(vector< Interval<T> > &array, int low, int high, T x, int size, Interval<T>* intersection);
+
+// template<typename T>
+// int if_intersection(Interval<T> a, Interval<T> b, Interval<T>* intersection);
 
 #endif
