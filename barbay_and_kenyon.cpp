@@ -5,7 +5,7 @@
 #include "set_class.h"
 #include "interval_set_class.h"
 #include "search_algorithms.h"
-#include "DIP.h"
+#include "dip.h"
 
 //using namespace std;
 
@@ -202,8 +202,8 @@ int main(){
     // int c[] = {1,3,8,10};
     // int d[] = {1,2,3,4,5,8};
 
-    vector< Interval<int> > a {Interval<int>(1,2), Interval<int>(3,7)};
-    vector< Interval<int> > b {Interval<int>(2,5), Interval<int>(6,7), Interval<int>(8,10)};
+    vector< Interval<int> >a{Interval<int>(1,2), Interval<int>(3,7)};
+    vector< Interval<int> >b{Interval<int>(2,5), Interval<int>(6,7), Interval<int>(8,10)};
 
     sets[0] = IntervalSet<int>(2, a);
     sets[1] = IntervalSet<int>(3, b);
@@ -257,9 +257,23 @@ int main(){
     // test DIP
     vector< IntervalSet<int> > partitions;
 
-    vector< Interval<int> > a2 {Interval<int>(3,7), Interval<int>(1,2)};
+    vector< Interval<int> > a2 {Interval<int>(3,7), Interval<int>(1,2), Interval<int>(3,6)};
     IntervalSet<int> set(2, a2);
-    DIP<int>(&set, partitions);
-    cout << "Primer elemento en a2: " << "[" << set.elements[0].low <<", "<< set.elements[0].high << "]" << endl;
+
+    /* Initialize minheap of partitions*/
+    // priority_queue< Partition<int> >  Q;
+    /* Initialize minheap of partitions*/
+    priority_queue< Partition<int>, vector< Partition <int> >, greater< Partition <int> > > Q;
+
+    DIP<int>(&set, Q);
+
+
+    cout << Q.size() << endl;
+    /* while (!Q.empty()) {
+        Partition<int> p = Q.top(); 
+        Q.pop();
+        cout << p.id << " " << p.lastInterval.high << "\n"; 
+    } */
+    /* cout << "Primer elemento en a2: " << "[" << set.elements[0].low <<", "<< set.elements[0].high << "]" << endl; */
     return 0;
 }

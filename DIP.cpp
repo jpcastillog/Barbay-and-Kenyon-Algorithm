@@ -37,10 +37,10 @@ template int if_intersection<int>(Interval<int> a, Interval<int> b);
 
 /* Disjoint interval partitions */
 template <typename T>
-int DIP (IntervalSet <T>* set, vector< IntervalSet<T> > &partitions){
+int DIP (IntervalSet <T>* set, priority_queue< Partition<T>, vector< Partition<T> >, greater< Partition<T> > >& partitions){
 
     /* Initialize minheap of partitions*/
-    priority_queue< Partition<T>, vector< Partition <T> >, greater< Partition <T> > > Q;
+    // priority_queue< Partition<T>, vector< Partition <T> >, greater< Partition <T> > > Q;
 
     /* First sort set of intervals by low value */
     sort(set->elements.begin(), set->elements.end(), compareInterval);
@@ -57,30 +57,39 @@ int DIP (IntervalSet <T>* set, vector< IntervalSet<T> > &partitions){
             intervalVector.push_back(x);
             IntervalSet <T> set = IntervalSet<T> (1, intervalVector);
             Partition <T> partition = Partition<T> (id_partitions, x, set);
-            Q.push(partition);
+            partitions.push(partition);
             id_partitions++;
         }
 
         else {
-            if (if_intersection<T>(Q.top().lastInterval, x)){
+            if (if_intersection<T>(partitions.top().lastInterval, x)){
                 vector< Interval <T> > intervalVector;
                 intervalVector.push_back(x);
                 IntervalSet <T> set = IntervalSet<T> (1, intervalVector);
                 Partition <T> partition = Partition<T> (id_partitions, x, set);
-                Q.push(partition);
+                partitions.push(partition);
                 id_partitions++;
             }
             else {
-                Partition <T> *p;
-                p = &(Q.top());
-                p -> set.size ++;
-                p -> lastInterval = x;
+                Partition<T> p = partitions.top();
+                p.set.elements.push_back(x);
+                p.set.size++;
+                p.lastInterval = x;
+                partitions.pop();
+                partitions.push(p);  
             }
             
         }
-        
-
     }
+
+
+    /* cout << "Q size: " << partitions.size() << endl;
+    while (!partitions.empty()) {
+        Partition<T> p = partitions.top(); 
+        partitions.pop();
+        cout << p.id << " " << p.lastInterval.high << "\n"; 
+    } */
+
     return 0; 
 }
-template int DIP<int>(IntervalSet <int>* set, vector< IntervalSet<int> > &partitions);
+template int DIP<int>(IntervalSet <int>* set, priority_queue< Partition<int>, vector< Partition<int> >, greater< Partition<int> > >& partitions);

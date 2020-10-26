@@ -24,8 +24,10 @@ template <typename T>class Partition{
             Partition::set = set;
         }
 };
+template <typename T>
+bool operator>(const Partition<T>& partition1, const Partition<T>& partition2);
 
 template <typename T>
-int DIP (IntervalSet <T>* set, vector< IntervalSet<T> > &partitions);
+int DIP (IntervalSet <T>* set, priority_queue< Partition<T>, vector< Partition<T> >, greater< Partition<T> > >& partitions);
 
 #endif
