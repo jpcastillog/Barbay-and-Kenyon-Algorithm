@@ -9,6 +9,7 @@
         "unordered_map": "cpp",
         "string_view": "cpp",
         "initializer_list": "cpp",
-        "queue": "cpp"
+        "queue": "cpp",
+        "ostream": "cpp"
     }
 }

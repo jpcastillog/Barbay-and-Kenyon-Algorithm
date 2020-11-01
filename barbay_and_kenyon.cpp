@@ -192,7 +192,6 @@ int intervalBarbayKenyon(IntervalSet<T> *sets, int k, list< Interval<T> > *inter
 }
 
 
-
 int main(){
     int k = 2;
     IntervalSet <int> sets[k];
@@ -243,7 +242,7 @@ int main(){
     Q.push(interval1);
     Q.push(interval2);
 
-    while (!Q.empty()) { 1
+    while (!Q.empty()) {
   
         Interval<int> p = Q.top(); 
   
@@ -263,12 +262,14 @@ int main(){
     /* Initialize minheap of partitions*/
     // priority_queue< Partition<int> >  Q;
     /* Initialize minheap of partitions*/
-    priority_queue< Partition<int>, vector< Partition <int> >, greater< Partition <int> > > Q;
+    heap< Partition<int>, vector< Partition <int> >, greater< Partition <int> > > Q;
 
-    DIP<int>(&set, Q);
+    createDIP<int>(&set, Q);
 
 
     cout << Q.size() << endl;
+    for(auto e: Q) cout<< e.set.elements[0].high <<endl;
+
     /* while (!Q.empty()) {
         Partition<int> p = Q.top(); 
         Q.pop();

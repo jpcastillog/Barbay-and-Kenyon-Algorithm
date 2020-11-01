@@ -37,10 +37,7 @@ template int if_intersection<int>(Interval<int> a, Interval<int> b);
 
 /* Disjoint interval partitions */
 template <typename T>
-int DIP (IntervalSet <T>* set, priority_queue< Partition<T>, vector< Partition<T> >, greater< Partition<T> > >& partitions){
-
-    /* Initialize minheap of partitions*/
-    // priority_queue< Partition<T>, vector< Partition <T> >, greater< Partition <T> > > Q;
+void createDIP (IntervalSet <T>* set, heap< Partition<T>, vector< Partition<T> >, greater< Partition<T> > >& partitions){
 
     /* First sort set of intervals by low value */
     sort(set->elements.begin(), set->elements.end(), compareInterval);
@@ -81,15 +78,21 @@ int DIP (IntervalSet <T>* set, priority_queue< Partition<T>, vector< Partition<T
             
         }
     }
+    for(auto e: partitions) cout<< e.set.elements[0].high <<endl;
 
-
-    /* cout << "Q size: " << partitions.size() << endl;
-    while (!partitions.empty()) {
-        Partition<T> p = partitions.top(); 
-        partitions.pop();
-        cout << p.id << " " << p.lastInterval.high << "\n"; 
-    } */
-
-    return 0; 
 }
-template int DIP<int>(IntervalSet <int>* set, priority_queue< Partition<int>, vector< Partition<int> >, greater< Partition<int> > >& partitions);
+template void createDIP<int>(IntervalSet <int>* set, heap< Partition<int>, vector< Partition<int> >, greater< Partition<int> > >& partitions);
+
+
+template <typename T>
+void intersectionDIP(priority_queue< Partition<T>, vector< Partition<T> >, greater< Partition<T> > > &partitions1, priority_queue< Partition<T>, vector< Partition<T> >, greater< Partition<T> > > &partitions2, vector< IntervalSet<T> > &intersection){
+    for (int i = 0; i < partitions1.size(); ++i){
+        // IntervalSet<T> p1 = partitions1[i].set;
+        for (int j = 0; j < partitions2.size(); ++j){
+            // IntervalSet<T> p2 = partitions2[j].set;
+            // IntervalSet sets_to_intersect [] = {p1, p2}
+            int a = 0;
+        }
+    }
+}
+template void intersectionDIP<int>(priority_queue< Partition<int>, vector< Partition<int> >, greater< Partition<int> > > &partitions1, priority_queue< Partition<int>, vector< Partition<int> >, greater< Partition<int> > > &partitions2, vector< IntervalSet<int> > &intersection);
