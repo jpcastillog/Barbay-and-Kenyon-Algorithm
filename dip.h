@@ -26,15 +26,7 @@ class Partition{
         }
 };
 
-
-// template<class T, class C, class O>
-// struct heap : std::priority_queue<T, C, O>{
-//     using priority_queue<T, C, O>::priority_queue;
-//     typename C::iterator begin() {return std::priority_queue<T, C, O>::c.begin(); }
-//     typename C::iterator end() {return std::priority_queue<T, C, O>::c.end(); }    
-// };
-
-
+// Custom queue to create heap
 template<class T, class Container, class Compare>
  class heap : public std::priority_queue<T, Container, Compare>{
     public:
@@ -43,8 +35,9 @@ template<class T, class Container, class Compare>
         }
         typename Container::iterator end(){
             return std::priority_queue<T, Container, Compare>::c.end();
-        } 
+        }
 };
+
 
 template <typename T>
 bool operator>(const Partition<T>& partition1, const Partition<T>& partition2);

@@ -78,21 +78,7 @@ void createDIP (IntervalSet <T>* set, heap< Partition<T>, vector< Partition<T> >
             
         }
     }
-    for(auto e: partitions) cout<< e.set.elements[0].high <<endl;
+    // for(auto e: partitions) cout<< e.set.elements[0].high <<endl;
 
 }
 template void createDIP<int>(IntervalSet <int>* set, heap< Partition<int>, vector< Partition<int> >, greater< Partition<int> > >& partitions);
-
-
-template <typename T>
-void intersectionDIP(priority_queue< Partition<T>, vector< Partition<T> >, greater< Partition<T> > > &partitions1, priority_queue< Partition<T>, vector< Partition<T> >, greater< Partition<T> > > &partitions2, vector< IntervalSet<T> > &intersection){
-    for (int i = 0; i < partitions1.size(); ++i){
-        // IntervalSet<T> p1 = partitions1[i].set;
-        for (int j = 0; j < partitions2.size(); ++j){
-            // IntervalSet<T> p2 = partitions2[j].set;
-            // IntervalSet sets_to_intersect [] = {p1, p2}
-            int a = 0;
-        }
-    }
-}
-template void intersectionDIP<int>(priority_queue< Partition<int>, vector< Partition<int> >, greater< Partition<int> > > &partitions1, priority_queue< Partition<int>, vector< Partition<int> >, greater< Partition<int> > > &partitions2, vector< IntervalSet<int> > &intersection);
