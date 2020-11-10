@@ -119,19 +119,18 @@ template <typename T>
 int intervalBarbayKenyon(IntervalSet<T> *sets, int k, list< Interval<T> > *intersection)
 {
     Interval<T> e = sets[0].elements[0]; // set eliminator element in [0,0], first element of first set
-    sets[0].pos = 1; // mark first element of first set as visited
+    // sets[0].pos = 0; // mark first element of first set as visited
 
     int i = 1;  // Set index
     int occr = 1;  // ocurrences of e
     int size = sets[i].size;
-
     IntervalSet<T> actual_set = sets[i]; // Init actual elements and size of initial set
 
     while ( 1 ){
-        Interval<T> intersect;
-        
+        actual_set = sets[i];
+        Interval<T> intersect;        
         cout << "i: "<< i <<"\n";
-        
+            
         // position of e in i-set
         int pos = intervalExponentialSearch(actual_set.elements, size, e, &intersect, actual_set.pos);
         cout << "pos: " << pos << "\n"; 
@@ -142,7 +141,7 @@ int intervalBarbayKenyon(IntervalSet<T> *sets, int k, list< Interval<T> > *inter
             e.low = intersect.low;
             e.high = intersect.high;
             occr += 1;
-            sets[i].pos = pos + 1;
+            
             if(occr == k){
                 intersection -> push_back(e);
                 cout << "elemento de la intersección: [" << e.low << "," << e.high << "]\n";
@@ -153,33 +152,35 @@ int intervalBarbayKenyon(IntervalSet<T> *sets, int k, list< Interval<T> > *inter
             int next_set_pos = sets[i].pos;
             int next_set_size = sets[i].size;
 
-            // No elements remain in the smallest set
-            if (next_set_pos == next_set_size-1){
-                return 0;
-            }
 
             // e is part of sets intersection      
             if (occr == k){
-                if (e.high < actual_set.elements[pos].high){
+                if (e.high < sets[i].elements[pos].high){
                     e.low = e.high ;
-                    e.high = actual_set.elements[pos].high;
+                    e.high = sets[i].elements[pos].high;
                     cout << "nuevo e: [" << e.low << "," << e.high << "]\n";
+                    sets[i].pos = pos;
+
                 }
                 else{
                     e = actual_set.elements[pos+1];
                     cout << "nuevo e: [" << e.low << "," << e.high << "]\n";
-                    sets[i].pos = pos+1;   
+                    sets[i].pos = pos+1;
                 }
             }
             
+            // No elements remain in the smallest set
+            else if (next_set_pos == next_set_size-1){
+                return 0;
+            }
+
             // e is not found in actual set
             else{   
                 // pos it's a succesor index of e
                 e = actual_set.elements[pos];
                 sets[i].pos = pos;
                 cout <<"intersect --> [" << intersect.low << "," << intersect.high << "]\n";
-                cout << "nuevo e: [" << e.low << "," << e.high << "]\n";
-                
+                cout << "nuevo e: [" << e.low << "," << e.high << "]\n";                
             }
             // restart occurrences
             occr = 1;
@@ -187,7 +188,6 @@ int intervalBarbayKenyon(IntervalSet<T> *sets, int k, list< Interval<T> > *inter
         cout << "-------------------\n";
         // Cyclical index of sets
         i = (i+1)%k;
-        actual_set = sets[i];
         size = sets[i].size;
     }
 

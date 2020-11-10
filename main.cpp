@@ -42,7 +42,7 @@ int main(){
     // list<int> intersection; 
     // barbayKenyon(sets, k, &intersection);
     // forceBruteIntersection(sets, k, &intersection);
-    
+    cout << "*****************************************" << endl;
     list< Interval<int> > intersection;
     intervalBarbayKenyon(sets, 2, &intersection);
 
@@ -53,6 +53,7 @@ int main(){
     }
 
     cout <<"}" << "\n";
+    cout << "*****************************************" << endl;
     
 
     // Test min heap

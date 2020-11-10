@@ -128,7 +128,7 @@ int if_intersection(Interval<T> a, Interval<T> b, Interval<T>* intersection)
 {
     T minLow, minHigh;
     // Not intersection case 
-    if (a.high < b.low || b.high  < a.low){
+    if (a.high <= b.low || b.high  <= a.low){
         return 0;
     }
 
@@ -202,7 +202,7 @@ int intervalExponentialSearch(vector< Interval<T> > &arr, int n , Interval<T> x,
     }
     
     int i = initial_position + 1; 
-    while (i < n && arr[i].high >= x.low) 
+    while (i < n && x.high > arr[i].low) 
         i = i*2;
   
     return intervalBinarySearch(arr, i/2, min(i, n), x, n, intersection);
