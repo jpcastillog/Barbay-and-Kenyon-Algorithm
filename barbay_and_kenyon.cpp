@@ -130,7 +130,7 @@ int intervalBarbayKenyon(IntervalSet<T> *sets, int k, list< Interval<T> > *inter
         actual_set = sets[i];
         Interval<T> intersect;        
         cout << "i: "<< i <<"\n";
-            
+        
         // position of e in i-set
         int pos = intervalExponentialSearch(actual_set.elements, size, e, &intersect, actual_set.pos);
         cout << "pos: " << pos << "\n"; 
@@ -158,13 +158,14 @@ int intervalBarbayKenyon(IntervalSet<T> *sets, int k, list< Interval<T> > *inter
                 if (e.high < sets[i].elements[pos].high){
                     e.low = e.high ;
                     e.high = sets[i].elements[pos].high;
-                    cout << "nuevo e: [" << e.low << "," << e.high << "]\n";
+                    cout << "1nuevo e: [" << e.low << "," << e.high << "]\n";
                     sets[i].pos = pos;
 
                 }
                 else{
-                    e = actual_set.elements[pos+1];
-                    cout << "nuevo e: [" << e.low << "," << e.high << "]\n";
+                    e = sets[i].elements[pos+1];
+                    cout << "2nuevo e: [" << e.low << "," << e.high << "]\n";
+                    cout << "i: " << i <<"size actual set = " << sets[i].size << endl;
                     sets[i].pos = pos+1;
                 }
             }

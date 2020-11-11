@@ -157,16 +157,18 @@ template int if_intersection<int>(Interval<int> a, Interval<int> b, Interval<int
 
 template<typename T>
 int intervalBinarySearch(vector< Interval<T> > &array, int low, int high, Interval<T> x, int size, Interval<T>* intersection)
-{
+{   
+    cout << "low: " << low << " high: " << high << endl;
     while (low <= high)
 	{
 		int mid = low + (high - low) / 2;
-        
+        cout << "mid: " << mid << endl;
         int if_intersect = if_intersection(array[mid], x, intersection);
-		if (if_intersect)
-			return mid;
-
-		if (array[mid].high < x.low)
+		if (if_intersect){
+            return mid;
+        }
+		
+		if (array[mid].high <= x.low)
 			low = mid + 1;
 
 		else
@@ -174,13 +176,16 @@ int intervalBinarySearch(vector< Interval<T> > &array, int low, int high, Interv
 	}
 
     if (low > size - 1){
+        cout << "wrong return 1" << endl;
         return high;
     }
     if (high < 0){
+        cout << "wrong return 2" << endl;
         return low;
     }
-    
-    return array[low].high<array[high].low ? high : low;
+    cout << "Operador ternario :" << (array[high].high <= x.low ? low : high) << endl;
+    return array[high].high <= x.low ? low : high;
+    // return array[low].high < array[high].low ? high : low;
 }
 template int intervalBinarySearch<int>(vector< Interval<int> > &array, int low, int high, Interval<int> x, int size, Interval<int>* intersection);
 

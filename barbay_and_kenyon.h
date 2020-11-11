@@ -1,5 +1,5 @@
 #ifndef BARBAY_AND_KENYON_H_
-#define BARBAY AND KENYON_H_
+#define BARBAY_AND_KENYON_H_
 
 #include <iostream>
 #include <list>
