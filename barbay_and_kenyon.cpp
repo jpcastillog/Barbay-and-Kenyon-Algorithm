@@ -152,7 +152,6 @@ int intervalBarbayKenyon(IntervalSet<T> *sets, int k, list< Interval<T> > *inter
             int next_set_pos = sets[i].pos;
             int next_set_size = sets[i].size;
 
-
             // e is part of sets intersection      
             if (occr == k){
                 if (e.high < sets[i].elements[pos].high){
@@ -163,6 +162,9 @@ int intervalBarbayKenyon(IntervalSet<T> *sets, int k, list< Interval<T> > *inter
 
                 }
                 else{
+                    if (next_set_pos == next_set_size-1){
+                        return 0;
+                    }   
                     e = sets[i].elements[pos+1];
                     cout << "2nuevo e: [" << e.low << "," << e.high << "]\n";
                     cout << "i: " << i <<"size actual set = " << sets[i].size << endl;
