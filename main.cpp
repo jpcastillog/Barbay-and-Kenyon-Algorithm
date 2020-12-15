@@ -7,6 +7,7 @@
 #include "search_algorithms.h"
 #include "barbay_and_kenyon.h"
 #include "dip.h"
+#include "load_tupples.h"
 
 
 
@@ -95,7 +96,7 @@ int main(){
     // for(auto e: Q1) cout<< e.set.elements[0].high <<endl;
 
     list< Interval<int> > intersectionResult;
-    intersectionDIP<int>(Q1, Q2, &intersectionResult);
+    intersectionDIP<int>(Q1, Q2, &intersectionResult, 1);
 
     cout << "************Disjoint Set Of Intervals Implementation************\n Intersection Set:" << "\n" << "{ ";
     list< Interval<int> >::iterator it2;
@@ -105,11 +106,32 @@ int main(){
 
     cout <<"}" << "\n";
 
-    /* while (!Q.empty()) {
-        Partition<int> p = Q.top(); 
-        Q.pop();
-        cout << p.id << " " << p.lastInterval.high << "\n"; 
-    } */
-    /* cout << "Primer elemento en a2: " << "[" << set.elements[0].low <<", "<< set.elements[0].high << "]" << endl; */
+    IntervalSet<int> s1;
+    IntervalSet<int> s2;
+    // char file_path1[] = "./DataSets/Flight_tuples.txt";
+    char file_path1[] = "./DataSets/Increment_data_0_1";
+    char file_path2[] = "./DataSets/Increment_data_0_2";
+
+    // Se cargan los conjuntos de intervalos
+    load_interval_set(file_path1, &s1);
+    load_interval_set(file_path2, &s2);
+
+    cout << "tamaño del conjunto de pruebas s1: " << s1.elements.size() << endl;
+    cout << "tamaño del conjunto de pruebas s2: " << s2.elements.size() << endl;
+    // Se crean las particiones disjuntas
+    heap< Partition<int>, vector< Partition <int> >, greater< Partition <int> > > H1;
+    heap< Partition<int>, vector< Partition <int> >, greater< Partition <int> > > H2;
+
+    createDIP<int> (&s1, H1);
+    createDIP<int> (&s2, H2);
+
+    // Perform de DiP intersection
+    list< Interval<int> > r;
+    intersectionDIP<int>(H1, H2, &r, 0);
+
+    cout << "Size of intersection: " << r.size() << endl;
+    cout << "FIN" << endl;
+    
+
     return 0;
 }

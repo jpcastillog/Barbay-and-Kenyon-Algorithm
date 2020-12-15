@@ -129,22 +129,22 @@ int intervalBarbayKenyon(IntervalSet<T> *sets, int k, list< Interval<T> > *inter
     while ( 1 ){
         actual_set = sets[i];
         Interval<T> intersect;        
-        cout << "i: "<< i <<"\n";
+        // cout << "i: "<< i <<"\n";
         
         // position of e in i-set
         int pos = intervalExponentialSearch(actual_set.elements, size, e, &intersect, actual_set.pos);
-        cout << "pos: " << pos << "\n"; 
-        cout << "e: [" << e.low << "," << e.high << "]\n";
+        // cout << "pos: " << pos << "\n"; 
+        // cout << "e: [" << e.low << "," << e.high << "]\n";
 
         if (intersect.low != -1){
-            cout<<"se encontro interseccion\n";
+            // cout<<"se encontro interseccion\n";
             e.low = intersect.low;
             e.high = intersect.high;
             occr += 1;
             
             if(occr == k){
                 intersection -> push_back(e);
-                cout << "elemento de la intersección: [" << e.low << "," << e.high << "]\n";
+                // cout << "elemento de la intersección: [" << e.low << "," << e.high << "]\n";
             }
         } 
         if(occr == k || intersect.low == -1){
@@ -157,7 +157,7 @@ int intervalBarbayKenyon(IntervalSet<T> *sets, int k, list< Interval<T> > *inter
                 if (e.high < sets[i].elements[pos].high){
                     e.low = e.high ;
                     e.high = sets[i].elements[pos].high;
-                    cout << "1nuevo e: [" << e.low << "," << e.high << "]\n";
+                    // cout << "1nuevo e: [" << e.low << "," << e.high << "]\n";
                     sets[i].pos = pos;
 
                 }
@@ -166,8 +166,8 @@ int intervalBarbayKenyon(IntervalSet<T> *sets, int k, list< Interval<T> > *inter
                         return 0;
                     }   
                     e = sets[i].elements[pos+1];
-                    cout << "2nuevo e: [" << e.low << "," << e.high << "]\n";
-                    cout << "i: " << i <<"size actual set = " << sets[i].size << endl;
+                    // cout << "2nuevo e: [" << e.low << "," << e.high << "]\n";
+                    // cout << "i: " << i <<"size actual set = " << sets[i].size << endl;
                     sets[i].pos = pos+1;
                 }
             }
@@ -182,13 +182,13 @@ int intervalBarbayKenyon(IntervalSet<T> *sets, int k, list< Interval<T> > *inter
                 // pos it's a succesor index of e
                 e = actual_set.elements[pos];
                 sets[i].pos = pos;
-                cout <<"intersect --> [" << intersect.low << "," << intersect.high << "]\n";
-                cout << "nuevo e: [" << e.low << "," << e.high << "]\n";                
+                // cout <<"intersect --> [" << intersect.low << "," << intersect.high << "]\n";
+                // cout << "nuevo e: [" << e.low << "," << e.high << "]\n";                
             }
             // restart occurrences
             occr = 1;
         }
-        cout << "-------------------\n";
+        // cout << "-------------------\n";
         // Cyclical index of sets
         i = (i+1)%k;
         size = sets[i].size;
@@ -200,15 +200,60 @@ template int intervalBarbayKenyon<int>(IntervalSet<int> *sets, int k, list< Inte
 
 
 template <typename T>
-void intersectionDIP(heap< Partition<T>, vector< Partition<T> >, greater< Partition<T> > > &partitions1, heap< Partition<T>, vector< Partition<T> >, greater< Partition<T> > > &partitions2, list< Interval<T> > *intersection){
-    for (auto i: partitions1){
-        IntervalSet<T> p1 = i.set;
-        for (auto j: partitions2){
-            IntervalSet<T> p2 = j.set;
-            IntervalSet<T> sets_to_intersect [] = {p1, p2};
-            cout << "***Intersection Between partitions " << i.id << " and " << j.id << endl;
-            intervalBarbayKenyon(sets_to_intersect, 2, intersection);
+void classicIntersectionDIP(IntervalSet <T> *set1, IntervalSet <T> *set2, list< Interval <T> > *intersections){
+
+    IntervalSet <T> *A, *B;
+    // Small size set
+    if (set1->size < set2->size){
+        A = set1;
+        B = set2;
+    }
+    else{
+        B = set1;
+        A = set2;
+    }
+
+    // vector < Interval <T> > intersections;
+    int init_position = 0;
+    for (auto x: A->elements){
+        // int size_intersections = intersections->size;
+        int last_comparision;
+        int last_visited = intervalLinearSearch(B->elements, B->size, x, intersections, init_position, &last_comparision);
+        if (!last_comparision){
+            init_position = last_visited;
         }
     }
 }
-template void intersectionDIP<int>(heap< Partition<int>, vector< Partition<int> >, greater< Partition<int> > > &partitions1, heap< Partition<int>, vector< Partition<int> >, greater< Partition<int> > > &partitions2, list< Interval<int> > *intersection);
+void classicIntersectionDIP(IntervalSet <int> *set1, IntervalSet <int> *set2, list< Interval <int> > &intersections);
+
+
+template <typename T>
+void intersectionDIP(heap< Partition<T>, vector< Partition<T> >, greater< Partition<T> > > &partitions1, heap< Partition<T>, vector< Partition<T> >, greater< Partition<T> > > &partitions2, list< Interval<T> > *intersection, int method){
+    // Perform Barbay and Kenyon Intersection
+    if ( method == 0 ){
+        cout << "--------->method: " << "Barbay and Kenyon" << endl;
+        for (auto i: partitions1){
+            IntervalSet<T> p1 = i.set;
+            for (auto j: partitions2){
+                IntervalSet<T> p2 = j.set;
+                IntervalSet<T> sets_to_intersect [] = {p1, p2};
+                cout << "***Intersection Between partitions " << i.id << " and " << j.id << endl;
+                intervalBarbayKenyon(sets_to_intersect, 2, intersection);
+            }
+        }
+    }
+    // Perform Linear Intersection
+    else if (method == 1){
+        cout << "--------->method: " << "Classic Linear Intersection" << endl;
+        for (auto i: partitions1){
+            IntervalSet<T> p1 = i.set;
+            for (auto j: partitions2){
+                IntervalSet<T> p2 = j.set;
+                classicIntersectionDIP(&p1, &p2, intersection);
+                // cout << "***Intersection Between partitions " << i.id << " and " << j.id << endl;
+            }
+        }
+    }
+    
+}
+template void intersectionDIP<int>(heap< Partition<int>, vector< Partition<int> >, greater< Partition<int> > > &partitions1, heap< Partition<int>, vector< Partition<int> >, greater< Partition<int> > > &partitions2, list< Interval<int> > *intersection, int method);

@@ -160,12 +160,10 @@ template int if_intersection<int>(Interval<int> a, Interval<int> b, Interval<int
 template<typename T>
 int intervalBinarySearch(vector< Interval<T> > &array, int low, int high, Interval<T> x, int size, Interval<T>* intersection)
 {   
-    cout << "low: " << low << " high: " << high << endl;
+    // cout << "low: " << low << " high: " << high << endl;
     while (low <= high)
 	{
 		int mid = low + (high - low) / 2;
-        cout << "low: " << low << " high: " << high << endl;
-        cout << "mid: " << mid << endl;
         int if_intersect = if_intersection(array[mid], x, intersection);
 		if (if_intersect){
             return mid;
@@ -179,14 +177,11 @@ int intervalBinarySearch(vector< Interval<T> > &array, int low, int high, Interv
 	}
 
     if (low > size - 1){
-        cout << "wrong return 1" << endl;
         return high;
     }
     if (high < 0){
-        cout << "wrong return 2" << endl;
         return low;
     }
-    cout << "Operador ternario :" << (array[high].high <= x.low ? low : high) << endl;
     return array[high].high <= x.low ? low : high;
     // return array[low].high < array[high].low ? high : low;
 }
@@ -216,3 +211,25 @@ int intervalExponentialSearch(vector< Interval<T> > &arr, int n , Interval<T> x,
     return intervalBinarySearch(arr, i/2, min(i, n-1), x, n, intersection);
 }
 template int intervalExponentialSearch<int>(vector< Interval<int> > &arr, int n, Interval<int> x, Interval<int>* intersection, int initial_position);
+
+
+// Return all intersections of x in arr
+template<typename T>
+int intervalLinearSearch(vector < Interval<T> > &arr, int n, Interval<T> x, list< Interval<T> > *intersections, int initial_position, int *last_comparision){
+    for(int i = initial_position; i < n; ++i){
+        Interval<T> intersection;
+        Interval<T> i_element = arr[i];
+        int if_intersect = if_intersection(x, i_element, &intersection);
+        if (if_intersect){
+            intersections->push_back(intersection);
+            *last_comparision = 1;
+        }
+        
+        if ( x.high <= i_element.high ){
+            return i; // return position of last element visited
+        }
+        
+    }
+    return n-1;
+}
+template int intervalLinearSearch<int>(vector < Interval<int> > &arr, int n, Interval<int> x, list< Interval<int> > *intersections, int initial_position, int *last_comparision);

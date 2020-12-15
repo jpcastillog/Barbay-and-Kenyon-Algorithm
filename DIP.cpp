@@ -10,6 +10,9 @@
 
 /* Function to sort interval set by start side of interval  */
 bool compareInterval(Interval<int>& interval1, Interval<int>& interval2){
+    if (interval1.low == interval2.low ){
+        return interval1.high < interval2.high;
+    }
     return interval1.low < interval2.low;
 }
 
@@ -42,10 +45,10 @@ void createDIP (IntervalSet <T>* set, heap< Partition<T>, vector< Partition<T> >
     /* First sort set of intervals by low value */
     sort(set->elements.begin(), set->elements.end(), compareInterval);
 
-    cout << "Intervals sorted by start time : \n"; 
-    for (auto x : set->elements) 
-        cout << "[" << x.low << ", " << x.high << "] ";
-    cout << endl;
+    // cout << "Intervals sorted by start time : \n"; 
+    // for (auto x : set->elements) 
+        // cout << "[" << x.low << ", " << x.high << "] ";
+    // cout << endl;
 
     int id_partitions = 0;
     for (auto x: set->elements){
