@@ -2,23 +2,23 @@
 #define SET_CLASS_H_
 
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
 template <typename T>class Set{
     public: 
         int size;
-        T *elements;
+        vector<T> elements;
         int pos;
         // Constructors
         Set(){
             pos=0;
         }
          
-        Set(int size, T *array){
+        Set(int size, vector<T> array){
             Set::pos = 0;
             Set::size = size;
-            Set::elements = new T[size];
             Set::elements = array;
         }
 };

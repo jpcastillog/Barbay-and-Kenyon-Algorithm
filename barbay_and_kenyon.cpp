@@ -7,13 +7,11 @@
 #include "search_algorithms.h"
 #include "dip.h"
 
-//using namespace std;
-
 template <typename T>
-int barbayKenyon(Set<T> *sets, int k, list<T> *intersection)
+int barbayKenyon(Set<T> *sets[], int k, list<T> *intersection)
 {
     // set eliminator element in [0,0], first element of first set
-    T e = sets[0].elements[0];
+    T e = sets[0]->elements[0];
     // Set index
     int i = 1;
     // ocurrences of e
@@ -21,29 +19,29 @@ int barbayKenyon(Set<T> *sets, int k, list<T> *intersection)
 
     int n = 0; // -> Eliminar
     // Init actual elements and size of initial set
-    T* actual_set=sets[i].elements;
-    int size = sets[i].size;
+    // vector<T> actual_set=sets[i].elements;
+    int size = sets[i]->size;
 
     while ( e != -1 ){
-        cout << "i: "<< i <<"\n";
+        // cout << "i: "<< i <<"\n";
         // position of e in i-set
-        // int pos = exponentialSearch(actual_set, size, e);
-        int pos = linearSearch(actual_set, size, e);
-        cout << "pos: " << pos << "\n"; 
-        cout << "e: " << e << "\n";
-        if (actual_set[pos] == e){
+        int pos = exponentialSearch(sets[i]->elements, size, e, sets[i]->pos);
+        // int pos = linearSearch(actual_set, size, e);
+        // cout << "pos: " << pos << "\n"; 
+        // cout << "e: " << e << "\n";
+        if (sets[i]->elements[pos] == e){
             occr +=1;
-            sets[i].pos = pos;
+            sets[i]->pos = pos;
             if(occr == k){
                 n+=1;
                 intersection -> push_back(e);
-                cout << "elemento de la intersección: " << e << "\n";
+                // cout << "elemento de la intersección: " << e << "\n";
             }
         } 
-        if(occr == k || actual_set[pos] != e){
+        if(occr == k || sets[i]->elements[pos] != e){
             // Position remain and size of next set
-            int next_set_pos = sets[i].pos;
-            int next_set_size = sets[i].size;
+            int next_set_pos = sets[i]->pos;
+            int next_set_size = sets[i]->size;
 
             // No elements remain in the smallest set
             if (next_set_pos == next_set_size-1){
@@ -53,31 +51,31 @@ int barbayKenyon(Set<T> *sets, int k, list<T> *intersection)
 
             // e is part of sets intersection      
             if (occr == k){   
-                e = actual_set[pos+1];
-                cout << "nuevo e: " << e << "\n";
-                sets[i].pos = pos+1;
+                e = sets[i]->elements[pos+1];
+                // cout << "nuevo e: " << e << "\n";
+                sets[i]->pos = pos+1;
             }
             // e is not found in actual set
             else{   
                 // pos it's a succesor index of e
-                e = actual_set[pos];
-                sets[i].pos = pos;
-                cout << "nuevo e: " << e << "\n";
+                e = sets[i]->elements[pos];
+                sets[i]->pos = pos;
+                // cout << "nuevo e: " << e << "\n";
                 
             }
             // restart occurrences
             occr = 1;
         }
-        cout << "-------------------\n";
+        // cout << "-------------------\n";
         // Cyclical index of sets
         i = (i+1)%k;
-        actual_set = sets[i].elements;
-        size = sets[i].size;
+        // actual_set = sets[i]->elements;
+        size = sets[i]->size;
     }
 
     return 0;
 }
-template int barbayKenyon<int>(Set<int> *sets, int k, list<int> *intersection); 
+template int barbayKenyon<int>(Set<int> *sets[], int k, list<int> *intersection); 
 
 
 
@@ -116,59 +114,66 @@ template int forceBruteIntersection<int>(Set<int> *sets, int k, list<int> *inter
 
 
 template <typename T>
-int intervalBarbayKenyon(IntervalSet<T> *sets, int k, list< Interval<T> > *intersection)
-{
-    Interval<T> e = sets[0].elements[0]; // set eliminator element in [0,0], first element of first set
-    // sets[0].pos = 0; // mark first element of first set as visited
+int intervalBarbayKenyon(IntervalSet<T>* sets[] , int k, list< Interval<T> > *intersection, bool cout_) {
+    
+    Interval<T> e = sets[0]->elements[0]; // set eliminator element in [0,0], first element of first set
+    Interval<T> original_e = sets[0]->elements[0];
 
     int i = 1;  // Set index
     int occr = 1;  // ocurrences of e
-    int size = sets[i].size;
-    IntervalSet<T> actual_set = sets[i]; // Init actual elements and size of initial set
+    int size = sets[i]->size;
+    IntervalSet<T> actual_set; // Init actual elements and size of initial set
 
     while ( 1 ){
-        actual_set = sets[i];
-        Interval<T> intersect;        
-        // cout << "i: "<< i <<"\n";
-        
-        // position of e in i-set
-        int pos = intervalExponentialSearch(actual_set.elements, size, e, &intersect, actual_set.pos);
-        // cout << "pos: " << pos << "\n"; 
-        // cout << "e: [" << e.low << "," << e.high << "]\n";
+        // actual_set = sets[i];
+        Interval<T> intersect;
+        // position of e in i-th set
+        int pos = intervalExponentialSearch(sets[i]->elements, size, e, &intersect, sets[i]->pos);
 
+        Interval<T> element_intersection = sets[i] -> elements[pos];
+        
+        // Exist intersection
         if (intersect.low != -1){
-            // cout<<"se encontro interseccion\n";
             e.low = intersect.low;
             e.high = intersect.high;
             occr += 1;
-            
             if(occr == k){
                 intersection -> push_back(e);
-                // cout << "elemento de la intersección: [" << e.low << "," << e.high << "]\n";
             }
-        } 
+        }
         if(occr == k || intersect.low == -1){
             // Position remain and size of next set
-            int next_set_pos = sets[i].pos;
-            int next_set_size = sets[i].size;
+            int next_set_pos = sets[i]->pos;
+            int next_set_size = sets[i]->size;
 
             // e is part of sets intersection      
             if (occr == k){
-                if (e.high < sets[i].elements[pos].high){
-                    e.low = e.high ;
-                    e.high = sets[i].elements[pos].high;
-                    // cout << "1nuevo e: [" << e.low << "," << e.high << "]\n";
-                    sets[i].pos = pos;
+                
+                // if ( e.high < original_e.high ){
+                // // if (e.high < actual_set.elements[pos].high){//sets[i].elements[pos].high){
+                //     e.low = e.high ;
+                //     // e.high = actual_set.elements[pos].high; //sets[i].elements[pos].high;
+                //     e.high = original_e.high;
+                //     if (cout_) cout << "1nuevo e: [" << e.low << "," << e.high << "]\n";
+                //     sets[i].pos = pos;
 
+                // }
+                
+                // if (e.high < sets[i]->elements[pos].high){//sets[i].elements[pos].high){
+                if (e.high < element_intersection.high){
+                    e.low = e.high ;
+                    e.high = element_intersection.high; //sets[i].elements[pos].high;
+                    sets[i]->pos = pos;
+                    //  i = (i+1)%k};
                 }
                 else{
-                    if (next_set_pos == next_set_size-1){
+                    if ((pos+1) > next_set_size-1){
                         return 0;
                     }   
-                    e = sets[i].elements[pos+1];
-                    // cout << "2nuevo e: [" << e.low << "," << e.high << "]\n";
-                    // cout << "i: " << i <<"size actual set = " << sets[i].size << endl;
-                    sets[i].pos = pos+1;
+                    e = sets[i]->elements[pos+1];
+                    // original_e = sets[i]->elements[pos+1];
+                    sets[i]->pos = pos+1;
+                    // i = (i+1)%k;
                 }
             }
             
@@ -180,23 +185,21 @@ int intervalBarbayKenyon(IntervalSet<T> *sets, int k, list< Interval<T> > *inter
             // e is not found in actual set
             else{   
                 // pos it's a succesor index of e
-                e = actual_set.elements[pos];
-                sets[i].pos = pos;
-                // cout <<"intersect --> [" << intersect.low << "," << intersect.high << "]\n";
-                // cout << "nuevo e: [" << e.low << "," << e.high << "]\n";                
+                e = element_intersection;
+                // original_e = sets[i]->elements[pos];
+                sets[i]->pos = pos;
+                // i = (i+1)%k;          
             }
             // restart occurrences
             occr = 1;
         }
-        // cout << "-------------------\n";
         // Cyclical index of sets
         i = (i+1)%k;
-        size = sets[i].size;
+        size = sets[i]->size;
     }
-
     return 0;
 }
-template int intervalBarbayKenyon<int>(IntervalSet<int> *sets, int k, list< Interval<int> > *intersection);
+template int intervalBarbayKenyon<int>(IntervalSet<int>* sets[], int k, list< Interval<int> > *intersection, bool cout_);
 
 
 template <typename T>
@@ -217,7 +220,7 @@ void classicIntersectionDIP(IntervalSet <T> *set1, IntervalSet <T> *set2, list< 
     int init_position = 0;
     for (auto x: A->elements){
         // int size_intersections = intersections->size;
-        int last_comparision;
+        int last_comparision = 0;
         int last_visited = intervalLinearSearch(B->elements, B->size, x, intersections, init_position, &last_comparision);
         if (!last_comparision){
             init_position = last_visited;
@@ -226,25 +229,47 @@ void classicIntersectionDIP(IntervalSet <T> *set1, IntervalSet <T> *set2, list< 
 }
 void classicIntersectionDIP(IntervalSet <int> *set1, IntervalSet <int> *set2, list< Interval <int> > &intersections);
 
-
+// method 0: Barbay and Kenyon, 1: Linear Search
 template <typename T>
 void intersectionDIP(heap< Partition<T>, vector< Partition<T> >, greater< Partition<T> > > &partitions1, heap< Partition<T>, vector< Partition<T> >, greater< Partition<T> > > &partitions2, list< Interval<T> > *intersection, int method){
     // Perform Barbay and Kenyon Intersection
     if ( method == 0 ){
-        cout << "--------->method: " << "Barbay and Kenyon" << endl;
+        cout << "---------> method: " << "Barbay and Kenyon" << endl;
         for (auto i: partitions1){
             IntervalSet<T> p1 = i.set;
             for (auto j: partitions2){
                 IntervalSet<T> p2 = j.set;
-                IntervalSet<T> sets_to_intersect [] = {p1, p2};
-                cout << "***Intersection Between partitions " << i.id << " and " << j.id << endl;
-                intervalBarbayKenyon(sets_to_intersect, 2, intersection);
+                IntervalSet<T>* sets_to_intersect [] = {&i.set, &j.set};
+                // cout << "***Intersection Between partitions " << i.id << " and " << j.id << endl;
+                // if ( i.id == 57 && j.id == 57){
+                //     cout  <<"SIZE OF PARTITIONS: "<<  i.set.size << " " << j.set.size << endl;
+                //      cout << "{" ;
+                //     for (auto x: i.set.elements){
+                //         cout << "[" << x.low << "," << x.high << ") ";
+                //     }
+                //     cout << "}" << endl;
+
+                //     cout << "{" ;
+                //     for (auto x: j.set.elements){
+                //         cout << "[" << x.low << "," << x.high << ") ";
+                //     }
+                //     cout << "}" << endl; 
+                //     intervalBarbayKenyon(sets_to_intersect, 2, intersection, true);
+                // }
+                // else{
+                //     intervalBarbayKenyon(sets_to_intersect, 2, intersection, false);
+                // }
+                intervalBarbayKenyon(sets_to_intersect, 2, intersection, false);
+                i.set.pos = 0;
+                j.set.pos = 0;
+                
+                // cout << "pos: " << p2.pos << "\n";
             }
         }
     }
     // Perform Linear Intersection
     else if (method == 1){
-        cout << "--------->method: " << "Classic Linear Intersection" << endl;
+        cout << "---------> method: " << "Classic Linear Intersection" << endl;
         for (auto i: partitions1){
             IntervalSet<T> p1 = i.set;
             for (auto j: partitions2){
@@ -257,3 +282,27 @@ void intersectionDIP(heap< Partition<T>, vector< Partition<T> >, greater< Partit
     
 }
 template void intersectionDIP<int>(heap< Partition<int>, vector< Partition<int> >, greater< Partition<int> > > &partitions1, heap< Partition<int>, vector< Partition<int> >, greater< Partition<int> > > &partitions2, list< Interval<int> > *intersection, int method);
+
+template <typename T>
+void reconstructIntervals(){
+    
+}
+
+template <typename T>
+void intersectionNumbersDIP(heap< numbersPartition<T>, vector< numbersPartition<T> >, greater< numbersPartition<T> > > &partitions1, heap< numbersPartition<T>, vector< numbersPartition<T> >, greater< numbersPartition<T> > > &partitions2, list< Interval<T> > *intersection){
+    for (auto i: partitions1){
+            // Set<T> p1 = i.set;
+            for (auto j: partitions2){
+                // Set<T> p2 = j.set;
+                list<T> partialSol;
+                Set<T> *sets[] = {&i.set, &j.set};
+                barbayKenyon(sets, 2, &partialSol);
+                cout << "partitions ids: " << i.id << ", " << j.id << endl;
+                i.set.pos = 0;
+                j.set.pos = 0;
+                cout<< "Tamaño solución: " << partialSol.size() << endl;
+            }
+        }
+
+}
+template void intersectionNumbersDIP<int>(heap< numbersPartition<int>, vector< numbersPartition<int> >, greater< numbersPartition<int> > > &partitions1, heap< numbersPartition<int>, vector< numbersPartition<int> >, greater< numbersPartition<int> > > &partitions2, list< Interval<int> > *intersection);

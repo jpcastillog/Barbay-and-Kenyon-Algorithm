@@ -6,16 +6,16 @@
 #include <list>
 
 template<typename T>
-int recursiveBinarySearch(T arr[], int l, int r, T x, int size);
+int recursiveBinarySearch(vector<T> &arr, int l, int r, T x, int size);
 
 template<typename T>
-int iterativeBinarySearch(T array[], int low, int high, T x, int size);
+int iterativeBinarySearch(vector<T> &array, int low, int high, T x, int size);
 
 template<typename T>
-int exponentialSearch(T arr[], int n, T x);
+int exponentialSearch(vector<T> &arr, int n, T x, int initial_position);
 
 template<typename T>
-int linearSearch(T arr[], int n, T x);
+int linearSearch(vector<T> &arr, int n, T x);
 
 template<typename T>
 int if_intersection(Interval<T> a, Interval<T> b, Interval<T>* intersection);

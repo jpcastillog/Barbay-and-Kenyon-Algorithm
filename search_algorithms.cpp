@@ -14,8 +14,7 @@ using namespace std;
 
 
 template <typename T>
-int recursiveBinarySearch(T arr[], int l, int r, T x, int size) 
-{ 
+int recursiveBinarySearch(vector<T> &arr, int l, int r, T x, int size){ 
     if (r >= l) 
     { 
         int mid = l + (r - l)/2; 
@@ -49,12 +48,11 @@ int recursiveBinarySearch(T arr[], int l, int r, T x, int size)
     return arr[l]>arr[r]?l:r; 
 } 
 // Instantation of template function 
-template int recursiveBinarySearch<int>(int arr[], int l, int r, int x, int size);
+template int recursiveBinarySearch<int>(vector<int> &arr, int l, int r, int x, int size);
 
 
 template <typename T>
-int iterativeBinarySearch(T array[], int low, int high, T x, int size)
-{
+int iterativeBinarySearch(vector<T> &array, int low, int high, T x, int size) {
 	while (low <= high)
 	{
 		int mid = low + (high - low) / 2;
@@ -79,11 +77,11 @@ int iterativeBinarySearch(T array[], int low, int high, T x, int size)
     return array[low] < array[high]?high:low;
 }
 //Instantation of template function
-template int iterativeBinarySearch<int>(int array[], int low, int high, int x, int size);
+template int iterativeBinarySearch<int>(vector<int> &array, int low, int high, int x, int size);
 
 
 template<typename T>
-int linearSearch(T arr[], int n, T x){
+int linearSearch(vector<T> &arr, int n, T x){
 
     for(int i=0; i < n; i++){
         // if x in arr return index of x in arr
@@ -99,25 +97,24 @@ int linearSearch(T arr[], int n, T x){
     return n-1;
 }
 //Instantation of template function
-template int linearSearch<int>(int arr[], int n, int x);
+template int linearSearch<int>(vector<int> &arr, int n, int x);
 
 
 template<typename T> 
-int exponentialSearch(T arr[], int n, T x) 
-{ 
-    if (arr[0] == x) 
+int exponentialSearch(vector<T> &arr, int n, T x, int initial_position) { 
+    if (arr[initial_position] == x) 
         return 0; 
     if (arr[n-1] < x)
         return n-1;
   
-    int i = 1; 
+    int i = initial_position + 1; 
     while (i < n && arr[i] <= x) 
         i = i*2; 
   
     return iterativeBinarySearch(arr, i/2, min(i, n-1), x, n); 
 }
 // Instantation of template function
-template int exponentialSearch<int>(int arr[], int n, int x);
+template int exponentialSearch<int>(vector<int> &arr, int n, int x, int initial_position);
 
 
 /* --------------------- Intervals implemetantions ---------------------*/
@@ -158,9 +155,7 @@ template int if_intersection<int>(Interval<int> a, Interval<int> b, Interval<int
 
 
 template<typename T>
-int intervalBinarySearch(vector< Interval<T> > &array, int low, int high, Interval<T> x, int size, Interval<T>* intersection)
-{   
-    // cout << "low: " << low << " high: " << high << endl;
+int intervalBinarySearch(vector< Interval<T> > &array, int low, int high, Interval<T> x, int size, Interval<T>* intersection){   
     while (low <= high)
 	{
 		int mid = low + (high - low) / 2;
@@ -194,21 +189,30 @@ int intervalExponentialSearch(vector< Interval<T> > &arr, int n , Interval<T> x,
     Interval <T> interval_intersection;
     int if_intersect = if_intersection(arr[initial_position], x, intersection); 
     if (if_intersect){
-        // intersection -> low = interval_intersection;
         return initial_position;
     }
 
-    if (arr[n-1].high < x.low) {
+    if (x.low < arr[initial_position].low){
+        return initial_position;
+    }
+
+    if (arr[n-1].high <= x.low) {
         intersection -> low = -1;
         intersection -> high = -1;
         return n-1;
     }
     
-    int i = initial_position + 1; 
-    while (i < n && x.high > arr[i].low) 
+    int i = initial_position + 1;
+    // while (i < n &&  arr[i].high <= x.low) 
+    while (i < n && (arr[i].low < x.low || arr[i].high <= x.low)) 
         i = i*2;
-  
-    return intervalBinarySearch(arr, i/2, min(i, n-1), x, n, intersection);
+    // cout << "Exponential search i: " << i << " initial position: " << initial_position << endl;
+    // cout << "[" << x.low << "," << x.high << "]" << endl;
+    // cout << "[" << arr[i].low << "," << arr[i].high << "]" << endl;
+    // cout << "[" << arr[initial_position].low << "," << arr[initial_position].high << "]" << endl;
+    // cout << "--------------------------------" << endl;
+    // return modifiedIntervalLinearSearch(arr, n, x, intersection, initial_position);
+    return succesorBinarySearch(arr, i/2, min(i, n-1), x, n, intersection, initial_position);
 }
 template int intervalExponentialSearch<int>(vector< Interval<int> > &arr, int n, Interval<int> x, Interval<int>* intersection, int initial_position);
 
@@ -224,7 +228,7 @@ int intervalLinearSearch(vector < Interval<T> > &arr, int n, Interval<T> x, list
             intersections->push_back(intersection);
             *last_comparision = 1;
         }
-        
+
         if ( x.high <= i_element.high ){
             return i; // return position of last element visited
         }
@@ -233,3 +237,46 @@ int intervalLinearSearch(vector < Interval<T> > &arr, int n, Interval<T> x, list
     return n-1;
 }
 template int intervalLinearSearch<int>(vector < Interval<int> > &arr, int n, Interval<int> x, list< Interval<int> > *intersections, int initial_position, int *last_comparision);
+
+template<typename T>
+int modifiedIntervalLinearSearch(vector< Interval <T> >& arr, int n, Interval<T> x, Interval<T>* intersection, int initial_position){
+    for (int i = initial_position; i < n; ++i){
+        int if_intersect = if_intersection(x, arr[i], intersection);
+        if ( if_intersect ){
+            return i;
+        }
+        if ( x.high <= arr[i].high ){
+            return i;
+        }
+    }
+    return n-1;
+}
+
+template<typename T>
+int succesorBinarySearch(vector< Interval <T> >& arr, int low, int high, Interval<T> x, int size, Interval<T>* intersection, int initial_position){
+
+    if ( x.low < arr[low].low ){
+        // cout << "paso" << endl;
+        if_intersection(x, arr[low], intersection);
+        return low;
+    }
+
+    while( low + 1 < high ){
+        int  mid = low + (high-low)/2;
+        if (arr[mid].low < x.low){
+            low = mid;
+        }
+        else{
+            high = mid;
+        }
+    }
+
+    if (if_intersection(x, arr[low], intersection)){
+        return low;
+    }
+    else{
+        if_intersection(x, arr[high], intersection);
+        return high;
+    }
+}
+template int succesorBinarySearch<int>(vector< Interval<int> > &array, int low, int high, Interval<int> x, int size, Interval<int>* intersection, int intitial_position);
