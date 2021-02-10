@@ -43,6 +43,22 @@ int if_intersection(Interval<T> a, Interval<T> b)
 template int if_intersection<int>(Interval<int> a, Interval<int> b);
 
 
+template<typename T> 
+int if_intersection_spaced(Interval<T> a, Interval<T> b)
+{
+    // Not intersection case 
+    if (a.high < b.low || b.high  < a.low){
+        return 0;
+    }
+
+    // Exist intersection between a and b
+    else{
+        return 1;
+    }
+}
+template int if_intersection_spaced<int>(Interval<int> a, Interval<int> b);
+
+
 /* Disjoint interval partitions */
 template <typename T>
 void createDIP (IntervalSet <T>* set, heap< Partition<T>, vector< Partition<T> >, greater< Partition<T> > > &partitions){
@@ -106,18 +122,18 @@ void createNumbersDIP (IntervalSet <T>* set, heap< numbersPartition<T>, vector< 
                 for (int number = x.low; number<x.high; ++number) {
                     numbersVector.push_back(number);
                 }
-                Set <T> set = Set<T> ((x.high-x.low)+1, numbersVector);
+                Set <T> set = Set<T> ((x.high-x.low), numbersVector);
                 numbersPartition <T> partition = numbersPartition<T> (id_partitions, x, set);
                 partitions.push(partition);
                 id_partitions++;
             }
             else {
-                if (if_intersection<T>(partitions.top().lastInterval, x)){
+                if (if_intersection_spaced<T>(partitions.top().lastInterval, x)){
                     vector<T> numbersVector;
                     for (int number=x.low; number<x.high; ++number) {
                         numbersVector.push_back(number);
                     }
-                    Set <T> set = Set<T> ((x.high-x.low)+1, numbersVector);
+                    Set <T> set = Set<T> ((x.high-x.low), numbersVector);
                     numbersPartition <T> partition = numbersPartition<T> (id_partitions, x, set);
                     partitions.push(partition);
                     id_partitions++;
@@ -127,7 +143,7 @@ void createNumbersDIP (IntervalSet <T>* set, heap< numbersPartition<T>, vector< 
                     for (int number=x.low; number<x.high; ++number) {
                         p.set.elements.push_back(number);
                     }
-                    p.set.size = p.set.size + (x.high - x.low) + 1;
+                    p.set.size = p.set.size + (x.high - x.low);
                     p.lastInterval = x;
                     partitions.pop();
                     partitions.push(p);

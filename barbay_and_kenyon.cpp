@@ -8,34 +8,25 @@
 #include "dip.h"
 
 template <typename T>
-int barbayKenyon(Set<T> *sets[], int k, list<T> *intersection)
-{
+int barbayKenyon(Set<T> *sets[], int k, vector<T> *intersection){
     // set eliminator element in [0,0], first element of first set
     T e = sets[0]->elements[0];
     // Set index
     int i = 1;
     // ocurrences of e
     int occr = 1;
-
-    int n = 0; // -> Eliminar
     // Init actual elements and size of initial set
-    // vector<T> actual_set=sets[i].elements;
     int size = sets[i]->size;
 
     while ( e != -1 ){
-        // cout << "i: "<< i <<"\n";
-        // position of e in i-set
+        // position of e in ith-set
         int pos = exponentialSearch(sets[i]->elements, size, e, sets[i]->pos);
         // int pos = linearSearch(actual_set, size, e);
-        // cout << "pos: " << pos << "\n"; 
-        // cout << "e: " << e << "\n";
         if (sets[i]->elements[pos] == e){
-            occr +=1;
+            occr ++;
             sets[i]->pos = pos;
             if(occr == k){
-                n+=1;
-                intersection -> push_back(e);
-                // cout << "elemento de la intersección: " << e << "\n";
+                intersection->push_back(e);
             }
         } 
         if(occr == k || sets[i]->elements[pos] != e){
@@ -45,37 +36,33 @@ int barbayKenyon(Set<T> *sets[], int k, list<T> *intersection)
 
             // No elements remain in the smallest set
             if (next_set_pos == next_set_size-1){
+            // if (pos + 1 > next_set_size - 1){
                 e = -1;
                 return 0;
             }
 
             // e is part of sets intersection      
-            if (occr == k){   
+            if (occr == k){
                 e = sets[i]->elements[pos+1];
-                // cout << "nuevo e: " << e << "\n";
                 sets[i]->pos = pos+1;
             }
             // e is not found in actual set
-            else{   
-                // pos it's a succesor index of e
+            else{
+                // pos it's a succesor index of e 
                 e = sets[i]->elements[pos];
                 sets[i]->pos = pos;
-                // cout << "nuevo e: " << e << "\n";
                 
             }
             // restart occurrences
             occr = 1;
         }
-        // cout << "-------------------\n";
         // Cyclical index of sets
         i = (i+1)%k;
-        // actual_set = sets[i]->elements;
         size = sets[i]->size;
     }
-
     return 0;
 }
-template int barbayKenyon<int>(Set<int> *sets[], int k, list<int> *intersection); 
+template int barbayKenyon<int>(Set<int> *sets[], int k, vector<int> *intersection); 
 
 
 
@@ -240,30 +227,9 @@ void intersectionDIP(heap< Partition<T>, vector< Partition<T> >, greater< Partit
             for (auto j: partitions2){
                 IntervalSet<T> p2 = j.set;
                 IntervalSet<T>* sets_to_intersect [] = {&i.set, &j.set};
-                // cout << "***Intersection Between partitions " << i.id << " and " << j.id << endl;
-                // if ( i.id == 57 && j.id == 57){
-                //     cout  <<"SIZE OF PARTITIONS: "<<  i.set.size << " " << j.set.size << endl;
-                //      cout << "{" ;
-                //     for (auto x: i.set.elements){
-                //         cout << "[" << x.low << "," << x.high << ") ";
-                //     }
-                //     cout << "}" << endl;
-
-                //     cout << "{" ;
-                //     for (auto x: j.set.elements){
-                //         cout << "[" << x.low << "," << x.high << ") ";
-                //     }
-                //     cout << "}" << endl; 
-                //     intervalBarbayKenyon(sets_to_intersect, 2, intersection, true);
-                // }
-                // else{
-                //     intervalBarbayKenyon(sets_to_intersect, 2, intersection, false);
-                // }
                 intervalBarbayKenyon(sets_to_intersect, 2, intersection, false);
                 i.set.pos = 0;
                 j.set.pos = 0;
-                
-                // cout << "pos: " << p2.pos << "\n";
             }
         }
     }
@@ -283,26 +249,41 @@ void intersectionDIP(heap< Partition<T>, vector< Partition<T> >, greater< Partit
 }
 template void intersectionDIP<int>(heap< Partition<int>, vector< Partition<int> >, greater< Partition<int> > > &partitions1, heap< Partition<int>, vector< Partition<int> >, greater< Partition<int> > > &partitions2, list< Interval<int> > *intersection, int method);
 
+
 template <typename T>
-void reconstructIntervals(){
-    
+void reconstructIntervals(vector<T> &partialSol, list< Interval<T> > *intersection){
+    int n = partialSol.size();
+    if (n > 0) {
+        T previous = partialSol[0];
+        T start = partialSol[0];
+
+        for (int i = 1; i < partialSol.size(); ++i){
+            if (previous + 1 !=  partialSol[i]){
+                intersection->push_back(Interval<T>(start, previous+1));
+                start = partialSol[i];
+                previous = partialSol[i];
+            }
+            else {
+                previous = partialSol[i];
+            }
+        }
+        intersection->push_back(Interval<T>(start, partialSol[n-1]+1));
+    }
 }
+template void reconstructIntervals<int>(vector<int> &partialSol, list < Interval<int> > *intersection);
+
 
 template <typename T>
 void intersectionNumbersDIP(heap< numbersPartition<T>, vector< numbersPartition<T> >, greater< numbersPartition<T> > > &partitions1, heap< numbersPartition<T>, vector< numbersPartition<T> >, greater< numbersPartition<T> > > &partitions2, list< Interval<T> > *intersection){
     for (auto i: partitions1){
-            // Set<T> p1 = i.set;
-            for (auto j: partitions2){
-                // Set<T> p2 = j.set;
-                list<T> partialSol;
-                Set<T> *sets[] = {&i.set, &j.set};
-                barbayKenyon(sets, 2, &partialSol);
-                cout << "partitions ids: " << i.id << ", " << j.id << endl;
-                i.set.pos = 0;
-                j.set.pos = 0;
-                cout<< "Tamaño solución: " << partialSol.size() << endl;
-            }
+        for (auto j: partitions2){
+            vector<T> partialSol;
+            Set<T> *sets[] = {&i.set, &j.set};
+            barbayKenyon(sets, 2, &partialSol);
+            reconstructIntervals(partialSol, intersection);
+            i.set.pos = 0;
+            j.set.pos = 0;
         }
-
+    }
 }
 template void intersectionNumbersDIP<int>(heap< numbersPartition<int>, vector< numbersPartition<int> >, greater< numbersPartition<int> > > &partitions1, heap< numbersPartition<int>, vector< numbersPartition<int> >, greater< numbersPartition<int> > > &partitions2, list< Interval<int> > *intersection);

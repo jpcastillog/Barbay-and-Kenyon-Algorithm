@@ -133,8 +133,10 @@ int main(){
     // createDIP<int> (&s1, H1);
     // createDIP<int> (&s2, H2);
 
-    cout << "Partitions set 1 size: " << H1.size() << endl;
-    cout << "Partitions set 2 size: " << H2.size() << endl;
+    cout << "Partitions set 1 size: " << NH1.size() << endl;
+    cout << "Partitions set 2 size: " << NH2.size() << endl;
+    
+    cout << NH1.begin() -> set.size << endl;
     
     auto start_dip = std::chrono::high_resolution_clock::now();
     list< Interval<int> > rr;
@@ -142,6 +144,13 @@ int main(){
     auto end_dip = std::chrono::high_resolution_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end_dip - start_dip);
     cout << "Time execution: " << elapsed.count() * 10e-9 << "[ns]" << endl; 
+    cout << "Size of intersection Barbay and Kenyon: " << rr.size() << endl;
+
+    // list< Interval<int> >::iterator it;
+    // for (it = rr.begin(); it != rr.end(); it++){
+    //     cout << "[" << it->low << ", " << it->high << "] ";
+    // }
+    // cout << endl;
 
     // Perform de Barbay and Kenyon DiP intersection
     // auto start_dip = std::chrono::high_resolution_clock::now();
@@ -167,11 +176,11 @@ int main(){
     // cout << "Size of intersection classic DIP: " << r.size() << endl;
     // cout << "FIN" << endl;
 
-    // list< Interval<int> > r2;
-    // bruteForce(&s1, &s2, &r2);  
+    list< Interval<int> > r2;
+    bruteForce(&s1, &s2, &r2);  
 
-    // cout << "Size of intersection Brute Force: " << r2.size() << endl;
-    // cout << "FIN" << endl;
+    cout << "Size of intersection Brute Force: " << r2.size() << endl;
+    cout << "FIN" << endl;
     // writeOutput(r2, "Resultado_1000_BF.txt");
 
     return 0;
