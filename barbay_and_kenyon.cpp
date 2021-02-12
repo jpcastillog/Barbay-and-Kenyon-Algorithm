@@ -115,7 +115,7 @@ int intervalBarbayKenyon(IntervalSet<T>* sets[] , int k, list< Interval<T> > *in
         // actual_set = sets[i];
         Interval<T> intersect;
         // position of e in i-th set
-        int pos = intervalExponentialSearch(sets[i]->elements, size, e, &intersect, sets[i]->pos);
+        int pos = intervalExponentialSearch(sets[i]->elements,  size, e, &intersect, sets[i]->pos);
 
         Interval<T> element_intersection = sets[i] -> elements[pos];
         
@@ -218,36 +218,36 @@ void classicIntersectionDIP(IntervalSet <int> *set1, IntervalSet <int> *set2, li
 
 // method 0: Barbay and Kenyon, 1: Linear Search
 template <typename T>
-void intersectionDIP(heap< Partition<T>, vector< Partition<T> >, greater< Partition<T> > > &partitions1, heap< Partition<T>, vector< Partition<T> >, greater< Partition<T> > > &partitions2, list< Interval<T> > *intersection, int method){
+void intersectionDIP(heap< Partition<T>*, vector< Partition<T>* >, orderIntervalsHeap<T> > &partitions1, heap< Partition<T>*, vector< Partition<T>* >, orderIntervalsHeap<T> > &partitions2, list< Interval<T> > *intersection, int method){
     // Perform Barbay and Kenyon Intersection
     if ( method == 0 ){
         cout << "---------> method: " << "Barbay and Kenyon" << endl;
-        for (auto i: partitions1){
-            IntervalSet<T> p1 = i.set;
-            for (auto j: partitions2){
-                IntervalSet<T> p2 = j.set;
-                IntervalSet<T>* sets_to_intersect [] = {&i.set, &j.set};
+        for (Partition<T> *i: partitions1){
+            // IntervalSet<T> p1 = i.set;
+            for (Partition<T> *j: partitions2){
+                // IntervalSet<T> p2 = j.set;
+                IntervalSet<T>* sets_to_intersect [] = {&(i->set), &(j->set)};
                 intervalBarbayKenyon(sets_to_intersect, 2, intersection, false);
-                i.set.pos = 0;
-                j.set.pos = 0;
+                i->set.pos = 0;
+                j->set.pos = 0;
             }
         }
     }
     // Perform Linear Intersection
     else if (method == 1){
         cout << "---------> method: " << "Classic Linear Intersection" << endl;
-        for (auto i: partitions1){
-            IntervalSet<T> p1 = i.set;
-            for (auto j: partitions2){
-                IntervalSet<T> p2 = j.set;
-                classicIntersectionDIP(&p1, &p2, intersection);
+        for (Partition<T> *i: partitions1){
+            // IntervalSet<T> p1 = i.set;
+            for (Partition<T> *j: partitions2){
+                // IntervalSet<T> p2 = j.set;
+                classicIntersectionDIP(&(i->set), &(j->set), intersection);
                 // cout << "***Intersection Between partitions " << i.id << " and " << j.id << endl;
             }
         }
     }
     
 }
-template void intersectionDIP<int>(heap< Partition<int>, vector< Partition<int> >, greater< Partition<int> > > &partitions1, heap< Partition<int>, vector< Partition<int> >, greater< Partition<int> > > &partitions2, list< Interval<int> > *intersection, int method);
+template void intersectionDIP<int>(heap< Partition<int>*, vector< Partition<int>* >, orderIntervalsHeap<int> > &partitions1, heap< Partition<int>*, vector< Partition<int>* >, orderIntervalsHeap<int> > &partitions2, list< Interval<int> > *intersection, int method);
 
 
 template <typename T>
@@ -274,16 +274,16 @@ template void reconstructIntervals<int>(vector<int> &partialSol, list < Interval
 
 
 template <typename T>
-void intersectionNumbersDIP(heap< numbersPartition<T>, vector< numbersPartition<T> >, greater< numbersPartition<T> > > &partitions1, heap< numbersPartition<T>, vector< numbersPartition<T> >, greater< numbersPartition<T> > > &partitions2, list< Interval<T> > *intersection){
-    for (auto i: partitions1){
-        for (auto j: partitions2){
+void intersectionNumbersDIP(heap< numbersPartition<T>*, vector< numbersPartition<T>* >, orderNumbersHeap<T> > &partitions1, heap< numbersPartition<T>*, vector< numbersPartition<T>* >, orderNumbersHeap<T> > &partitions2, list< Interval<T> > *intersection){
+    for (numbersPartition<T>* i: partitions1){
+        for (numbersPartition<T>* j: partitions2){
             vector<T> partialSol;
-            Set<T> *sets[] = {&i.set, &j.set};
+            Set<T> *sets[] = {&(i->set), &(j->set)};
             barbayKenyon(sets, 2, &partialSol);
             reconstructIntervals(partialSol, intersection);
-            i.set.pos = 0;
-            j.set.pos = 0;
+            i->set.pos = 0;
+            j->set.pos = 0;
         }
     }
 }
-template void intersectionNumbersDIP<int>(heap< numbersPartition<int>, vector< numbersPartition<int> >, greater< numbersPartition<int> > > &partitions1, heap< numbersPartition<int>, vector< numbersPartition<int> >, greater< numbersPartition<int> > > &partitions2, list< Interval<int> > *intersection);
+template void intersectionNumbersDIP<int>(heap< numbersPartition<int>*, vector< numbersPartition<int>* >, orderNumbersHeap<int> > &partitions1, heap< numbersPartition<int>*, vector< numbersPartition<int>* >, orderNumbersHeap<int> > &partitions2, list< Interval<int> > *intersection);

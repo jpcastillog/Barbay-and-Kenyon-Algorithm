@@ -121,30 +121,34 @@ int main(){
     cout << "tamaño del conjunto de pruebas s1: " << s1.elements.size() << endl;
     cout << "tamaño del conjunto de pruebas s2: " << s2.elements.size() << endl;
     // Se crean las particiones disjuntas
-    heap< Partition<int>, vector< Partition <int> >, greater< Partition <int> > > H1;
-    heap< Partition<int>, vector< Partition <int> >, greater< Partition <int> > > H2;
+    heap< Partition<int>*, vector< Partition <int>* >, orderIntervalsHeap<int> > H1;
+    heap< Partition<int>*, vector< Partition <int>* >, orderIntervalsHeap<int> > H2;
 
-    heap< numbersPartition<int>, vector< numbersPartition <int> >, greater< numbersPartition <int> > > NH1;
-    heap< numbersPartition<int>, vector< numbersPartition <int> >, greater< numbersPartition <int> > > NH2;
+    // heap< numbersPartition<int>*, vector< numbersPartition <int>* >, greater< numbersPartition <int>* > > NH1;
+    // heap< numbersPartition<int>*, vector< numbersPartition <int>* >, greater< numbersPartition <int>* > > NH2;
 
-    createNumbersDIP(&s1, NH1);
-    createNumbersDIP(&s2, NH2);
+    heap< numbersPartition<int>*, vector< numbersPartition <int>* >, orderNumbersHeap<int> > NH1;
+    heap< numbersPartition<int>*, vector< numbersPartition <int>* >, orderNumbersHeap<int> > NH2;
 
-    // createDIP<int> (&s1, H1);
-    // createDIP<int> (&s2, H2);
+    // createNumbersDIP(&s1, NH1);
+    // createNumbersDIP(&s2, NH2);
 
-    cout << "Partitions set 1 size: " << NH1.size() << endl;
-    cout << "Partitions set 2 size: " << NH2.size() << endl;
-    
-    cout << NH1.begin() -> set.size << endl;
-    
-    auto start_dip = std::chrono::high_resolution_clock::now();
-    list< Interval<int> > rr;
-    intersectionNumbersDIP<int>(NH1, NH2, &rr);
-    auto end_dip = std::chrono::high_resolution_clock::now();
-    auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end_dip - start_dip);
-    cout << "Time execution: " << elapsed.count() * 10e-9 << "[ns]" << endl; 
-    cout << "Size of intersection Barbay and Kenyon: " << rr.size() << endl;
+    createDIP<int> (&s1, H1);
+    createDIP<int> (&s2, H2);
+
+    cout << "Partitions set 1 size: " << H1.size() << endl;
+    cout << "Partitions set 2 size: " << H2.size() << endl;
+
+    // cout << "Partitions set 1 size: " << NH1.size() << endl;
+    // cout << "Partitions set 2 size: " << NH2.size() << endl;
+
+    // auto start_dip = std::chrono::high_resolution_clock::now();
+    // list< Interval<int> > rr;
+    // intersectionNumbersDIP<int>(NH1, NH2, &rr);
+    // auto end_dip = std::chrono::high_resolution_clock::now();
+    // auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end_dip - start_dip);
+    // cout << "Time execution: " << elapsed.count() * 10e-9 << "[ns]" << endl; 
+    // cout << "Size of intersection Barbay and Kenyon: " << rr.size() << endl;
 
     // list< Interval<int> >::iterator it;
     // for (it = rr.begin(); it != rr.end(); it++){
@@ -153,34 +157,34 @@ int main(){
     // cout << endl;
 
     // Perform de Barbay and Kenyon DiP intersection
-    // auto start_dip = std::chrono::high_resolution_clock::now();
-    // list< Interval<int> > r;
-    // intersectionDIP<int>(H1, H2, &r, 0);
-    // auto end_dip = std::chrono::high_resolution_clock::now();
-    // auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end_dip - start_dip);
+    auto start_dip = std::chrono::high_resolution_clock::now();
+    list< Interval<int> > r;
+    intersectionDIP<int>(H1, H2, &r, 0);
+    auto end_dip = std::chrono::high_resolution_clock::now();
+    auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end_dip - start_dip);
     
-    // cout << "Time execution: " << elapsed.count() * 10e-9 << "[ns]" << endl; 
-    // cout << "Size of intersection DIP: " << r.size() << endl;
-    // cout << "FIN" << endl;
+    cout << "Time execution: " << elapsed.count() * 10e-9 << "[ns]" << endl; 
+    cout << "Size of intersection DIP: " << r.size() << endl;
+    cout << "FIN" << endl;
 
-    // writeOutput(r, "Resultado_1000_DIP.txt");
+    // // writeOutput(r, "Resultado_1000_DIP.txt");
     
     // // Perform de classic DiP intersection
-    // auto start_classic_dip = std::chrono::high_resolution_clock::now();
-    // list< Interval<int> > r1;
-    // intersectionDIP<int>(H1, H2, &r1, 1);
-    // auto end_classic_dip = std::chrono::high_resolution_clock::now();
-    // auto elapsed_classic_dip = std::chrono::duration_cast<std::chrono::nanoseconds>(end_classic_dip - start_classic_dip);
+    auto start_classic_dip = std::chrono::high_resolution_clock::now();
+    list< Interval<int> > r1;
+    intersectionDIP<int>(H1, H2, &r1, 1);
+    auto end_classic_dip = std::chrono::high_resolution_clock::now();
+    auto elapsed_classic_dip = std::chrono::duration_cast<std::chrono::nanoseconds>(end_classic_dip - start_classic_dip);
 
-    // cout << "Time execution: " << elapsed_classic_dip.count() * 10e-9 << "[ns]" << endl;
-    // cout << "Size of intersection classic DIP: " << r.size() << endl;
-    // cout << "FIN" << endl;
-
-    list< Interval<int> > r2;
-    bruteForce(&s1, &s2, &r2);  
-
-    cout << "Size of intersection Brute Force: " << r2.size() << endl;
+    cout << "Time execution: " << elapsed_classic_dip.count() * 10e-9 << "[ns]" << endl;
+    cout << "Size of intersection classic DIP: " << r1.size() << endl;
     cout << "FIN" << endl;
+
+    // list< Interval<int> > r2;
+    // bruteForce(&s1, &s2, &r2);  
+
+    // cout << "Size of intersection Brute Force: " << r2.size() << endl;
+    // cout << "FIN" << endl;
     // writeOutput(r2, "Resultado_1000_BF.txt");
 
     return 0;

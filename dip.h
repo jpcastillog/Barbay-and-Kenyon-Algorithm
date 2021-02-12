@@ -26,6 +26,7 @@ class Partition{
         }
 };
 
+
 template <typename T> 
 class numbersPartition{
     public:
@@ -43,7 +44,12 @@ class numbersPartition{
         numbersPartition::lastInterval = lastInterval;
         numbersPartition::set = set;
     }
+
+    bool operator>(const numbersPartition<T>* partition){
+        return lastInterval.high > partition->lastInterval.high;
+    }
 };
+
 
 // Custom queue to create heap
 template<class T, class Container, class Compare>
@@ -58,15 +64,33 @@ template<class T, class Container, class Compare>
 };
 
 
+template <typename T> 
+struct orderNumbersHeap {
+    bool operator() (numbersPartition<T>* partition1, numbersPartition<T>* partition2){
+        return partition1->lastInterval.high > partition2->lastInterval.high;
+    }
+};
+
+
+template <typename T>
+struct orderIntervalsHeap {
+    bool operator() (Partition<T> *partition1, Partition<T> *partition2){
+        return partition1->lastInterval.high > partition2->lastInterval.high;
+    }
+};
+
+
 template <typename T>
 bool operator>(const Partition<T>& partition1, const Partition<T>& partition2);
 
-template <typename T>
-bool operator>(const numbersPartition<T> &partition1, const numbersPartition<T> &partition2);
+// template <typename T>
+// bool operator>(const numbersPartition<T> &partition1, const numbersPartition<T> &partition2);
 
 template <typename T>
-void createDIP (IntervalSet <T>* set, heap< Partition<T>, vector< Partition<T> >, greater< Partition<T> > > &partitions);
+void createDIP (IntervalSet <T>* set, heap< Partition<T>*, vector< Partition<T>* >, orderIntervalsHeap<T> > &partitions);
 
 template <typename T>
-void createNumbersDIP (IntervalSet <T>* set, heap< numbersPartition<T>, vector< numbersPartition<T> >, greater< numbersPartition<T> > > &partitions);
+// void createNumbersDIP (IntervalSet <T>* set, heap< numbersPartition<T>*, vector< numbersPartition<T>* >, greater< numbersPartition<T>* > > &partitions);
+void createNumbersDIP (IntervalSet <T>* set, heap< numbersPartition<T>*, vector< numbersPartition<T>* >, orderNumbersHeap<T> > &partitions);
+
 #endif

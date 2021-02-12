@@ -16,11 +16,11 @@ template <typename T>
 int intervalBarbayKenyon(IntervalSet<T> *sets [], int k, list< Interval<T> > *intersection, bool cout_);
 
 template <typename T>
-void intersectionDIP(heap< Partition<T>, vector< Partition<T> >, greater< Partition<T> > > &partitions1, heap< Partition<T>, vector< Partition<T> >, greater< Partition<T> > > &partitions2, list< Interval<T> > *intersection, int method);
+void intersectionDIP(heap< Partition<T>*, vector< Partition<T>* >, orderIntervalsHeap<T> > &partitions1, heap< Partition<T>*, vector< Partition<T>* >, orderIntervalsHeap<T> > &partitions2, list< Interval<T> > *intersection, int method);
 
 template <typename T>
 void classicIntersectionDIP(IntervalSet <T> *set1, IntervalSet <T> *set2, list< Interval <T> > &intersections);
 
 template <typename T>
-void intersectionNumbersDIP(heap< numbersPartition<T>, vector< numbersPartition<T> >, greater< numbersPartition<T> > > &partitions1, heap< numbersPartition<T>, vector< numbersPartition<T> >, greater< numbersPartition<T> > > &partitions2, list< Interval<T> > *intersection);
+void intersectionNumbersDIP(heap< numbersPartition<T>*, vector< numbersPartition<T>* >, orderNumbersHeap<T> > &partitions1, heap< numbersPartition<T>*, vector< numbersPartition<T>* >, orderNumbersHeap<T> > &partitions2, list< Interval<T> > *intersection);
 #endif
