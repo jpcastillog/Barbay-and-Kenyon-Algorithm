@@ -36,7 +36,8 @@ test
 .DS_Store
 
 #Visual Studio Code
-.vscode/
+
 
 #Folders
 IntervalSets/
+.vscode/
