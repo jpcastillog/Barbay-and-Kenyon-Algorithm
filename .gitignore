@@ -32,5 +32,11 @@
 *.app
 test
 
+# Macos
+.DS_Store
+
+#Visual Studio Code
+.vscode/
+
 #Folders
 IntervalSets/
