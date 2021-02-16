@@ -33,11 +33,10 @@
 test
 
 # Macos
-.DS_Store
-
-#Visual Studio Code
-
+*.DS_Store
 
 #Folders
 IntervalSets/
+
+# VS Code
 .vscode/
