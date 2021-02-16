@@ -130,13 +130,16 @@ int main(){
     // char file_path1[] = "./DataSets/brFlightsA_1000000.txt";
     // char file_path2[] = "./DataSets/brFlightsB_1000000.txt";
 
-    char file_path1[] = "./DataSets/brFlightsA_500000.txt";
-    char file_path2[] = "./DataSets/brFlightsB_500000.txt";
+    // char file_path1[] = "./DataSets/brFlightsA_500000.txt";
+    // char file_path2[] = "./DataSets/brFlightsB_500000.txt";
 
 
     // char file_path1[] = "./DataSets/atusacA_1000.txt";
     // char file_path2[] = "./DataSets/atusacB_1000.txt";
 
+
+    char file_path1[] = "./../../../data/intervals/invertedIndex/invertedIndexA10_10000.txt";
+    char file_path2[] = "./../../../data/intervals/invertedIndex/invertedIndexB10_10000.txt";
 
 
     // Se cargan los conjuntos de intervalos
