@@ -21,7 +21,7 @@ template<typename T>
 int if_intersection(Interval<T> a, Interval<T> b, Interval<T>* intersection);
 
 template<typename T>
-int intervalExponentialSearch(vector< Interval<T> > &arr, int n , Interval<T> x, Interval<T>* intersection, int initial_position);
+int intervalExponentialSearch(vector< Interval<T> > &arr, int n , Interval<T> &x, Interval<T>* intersection, int initial_position);
 
 template<typename T>
 int intervalBinarySearch(vector< Interval<T> > &array, int low, int high, T x, int size, Interval<T>* intersection);

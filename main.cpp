@@ -34,6 +34,14 @@ void writeOutput(list <Interval <T> > intersection_set, string name_file){
     file.close();
 }
 
+
+void freeHeap(heap< Partition<int>*, vector< Partition <int>* >, orderIntervalsHeap<int> > &h){
+    for(Partition<int>* p: h){
+        delete p;
+    }
+}
+
+
 template <typename T> 
 void bruteForce(IntervalSet<T>* set1, IntervalSet<T>* set2, list< Interval<T> >* result){
     for (auto i: set1 -> elements){
@@ -101,8 +109,8 @@ int main(){
     // char file_path1[] = "./DataSets/Flight_tuples.txt";
     // char file_path2[] = "./DataSets/Flight_tuples.txt";
 
-    char file_path1[] = "./DataSets/Increment_data_0_1";
-    char file_path2[] = "./DataSets/Increment_data_0_2";
+    // char file_path1[] = "./DataSets/Increment_data_0_1";
+    // char file_path2[] = "./DataSets/Increment_data_0_2";
 
     // char file_path1[] = "./DataSets/Random_Uniform_1000000";
     // char file_path2[] = "./DataSets/Random_Uniform_10000002";
@@ -112,6 +120,23 @@ int main(){
 
     // char file_path1[] = "./DataSets/Random_Uniform_10001";
     // char file_path2[] = "./DataSets/Random_Uniform_10002";
+
+    // char file_path1[] = "./DataSets/brFlightsA_10000.txt";
+    // char file_path2[] = "./DataSets/brFlightsB_10000.txt";
+
+    // char file_path1[] = "./DataSets/brFlightsA_100000.txt";
+    // char file_path2[] = "./DataSets/brFlightsB_100000.txt";
+
+    // char file_path1[] = "./DataSets/brFlightsA_1000000.txt";
+    // char file_path2[] = "./DataSets/brFlightsB_1000000.txt";
+
+    char file_path1[] = "./DataSets/brFlightsA_500000.txt";
+    char file_path2[] = "./DataSets/brFlightsB_500000.txt";
+
+
+    // char file_path1[] = "./DataSets/atusacA_1000.txt";
+    // char file_path2[] = "./DataSets/atusacB_1000.txt";
+
 
 
     // Se cargan los conjuntos de intervalos
@@ -166,6 +191,7 @@ int main(){
     cout << "Time execution: " << elapsed.count() * 10e-9 << "[ns]" << endl; 
     cout << "Size of intersection DIP: " << r.size() << endl;
     cout << "FIN" << endl;
+    r.clear();
 
     // // writeOutput(r, "Resultado_1000_DIP.txt");
     
@@ -179,13 +205,17 @@ int main(){
     cout << "Time execution: " << elapsed_classic_dip.count() * 10e-9 << "[ns]" << endl;
     cout << "Size of intersection classic DIP: " << r1.size() << endl;
     cout << "FIN" << endl;
-
+    r1.clear();
     // list< Interval<int> > r2;
     // bruteForce(&s1, &s2, &r2);  
 
     // cout << "Size of intersection Brute Force: " << r2.size() << endl;
     // cout << "FIN" << endl;
     // writeOutput(r2, "Resultado_1000_BF.txt");
+
+
+    freeHeap(H1);
+    freeHeap(H2);
 
     return 0;
 }

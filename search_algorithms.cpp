@@ -184,11 +184,12 @@ template int intervalBinarySearch<int>(vector< Interval<int> > &array, int low, 
 
 
 template<typename T> 
-int intervalExponentialSearch(vector< Interval<T> > &arr, int n , Interval<T> x, Interval<T>* intersection, int initial_position)
+int intervalExponentialSearch(vector< Interval<T> > &arr, int n , Interval<T> &x, Interval<T>* intersection, int initial_position)
 {   
     Interval <T> interval_intersection;
     int if_intersect = if_intersection(arr[initial_position], x, intersection); 
     if (if_intersect){
+        // cout << "pass" <<endl;
         return initial_position;
     }
 
@@ -215,7 +216,7 @@ int intervalExponentialSearch(vector< Interval<T> > &arr, int n , Interval<T> x,
     // return succesorBinarySearch(arr, i/2, min(i, n-1), x, n, intersection, initial_position);
     return successor(arr, i/2, min(i, n-1), x, n, intersection, i/2);
 }
-template int intervalExponentialSearch<int>(vector< Interval<int> > &arr, int n, Interval<int> x, Interval<int>* intersection, int initial_position);
+template int intervalExponentialSearch<int>(vector< Interval<int> > &arr, int n, Interval<int> &x, Interval<int>* intersection, int initial_position);
 
 
 // Return all intersections of x in arr
@@ -284,9 +285,10 @@ template int succesorBinarySearch<int>(vector< Interval<int> > &arr, int low, in
 
 
 template<typename T> 
-int successor(vector< Interval <T> > &arr, int low, int high, Interval<T> x, int size, Interval<T> *intersection, int initial_position){
+int successor(vector< Interval <T> > &arr, int low, int high, Interval<T> &x, int size, Interval<T> *intersection, int initial_position){
+    if (if_intersection(x, arr[initial_position], intersection))
+        return initial_position;
     int ans = -1;
- 
     while (low <= high) {
         int mid = low + (high - low + 1) / 2;
         Interval<T> midVal = arr[mid];
@@ -335,5 +337,5 @@ int successor(vector< Interval <T> > &arr, int low, int high, Interval<T> x, int
 
     return ans;
 }
-template int successor<int>(vector< Interval<int> > &arr, int low, int high, Interval<int> x, int size, Interval<int> *intersection, int initial_position);
+template int successor<int>(vector< Interval<int> > &arr, int low, int high, Interval<int> &x, int size, Interval<int> *intersection, int initial_position);
 

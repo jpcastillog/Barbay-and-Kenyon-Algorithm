@@ -22,5 +22,8 @@ main.o: main.cpp
 clean:
 	rm -f core *.o test
 
+run valgrind:
+	valgrind --tool=memcheck ./test
+	
 run:
 	./test

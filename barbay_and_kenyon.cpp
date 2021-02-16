@@ -110,6 +110,7 @@ int intervalBarbayKenyon(IntervalSet<T>* sets[] , int k, list< Interval<T> > *in
     int occr = 1;  // ocurrences of e
     int size = sets[i]->size;
     IntervalSet<T> actual_set; // Init actual elements and size of initial set
+    int j = 0;
 
     while ( 1 ){
         // actual_set = sets[i];
@@ -181,7 +182,9 @@ int intervalBarbayKenyon(IntervalSet<T>* sets[] , int k, list< Interval<T> > *in
             occr = 1;
         }
         // Cyclical index of sets
+        // sets[j]->pos++;
         i = (i+1)%k;
+        j = (j+1)%k;
         size = sets[i]->size;
     }
     return 0;
