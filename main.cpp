@@ -106,36 +106,57 @@ int main(){
     IntervalSet<int> s1;
     IntervalSet<int> s2;
 
-    // char file_path1[] = "./DataSets/Flight_tuples.txt";
-    // char file_path2[] = "./DataSets/Flight_tuples.txt";
+    // char file_path1[] = "./IntervalSets/Flight_tuples.txt";
+    // char file_path2[] = "./IntervalSets/Flight_tuples.txt";
 
-    // char file_path1[] = "./DataSets/Increment_data_0_1";
-    // char file_path2[] = "./DataSets/Increment_data_0_2";
+    // char file_path1[] = "./IntervalSets/Increment_data_0_1";
+    // char file_path2[] = "./IntervalSets/Increment_data_0_2";
 
-    // char file_path1[] = "./DataSets/Random_Uniform_1000000";
-    // char file_path2[] = "./DataSets/Random_Uniform_10000002";
+    // char file_path1[] = "./IntervalSets/Random_Uniform_1000000";
+    // char file_path2[] = "./IntervalSets/Random_Uniform_10000002";
 
-    // char file_path1[] = "./DataSets/Random_Uniform_10001";
-    // char file_path2[] = "./DataSets/Random_Uniform_10002";
+    // char file_path1[] = "./IntervalSets/Random_Uniform_10001";
+    // char file_path2[] = "./IntervalSets/Random_Uniform_10002";
 
-    // char file_path1[] = "./DataSets/Random_Uniform_10001";
-    // char file_path2[] = "./DataSets/Random_Uniform_10002";
+    // char file_path1[] = "./IntervalSets/Random_Uniform_10001";
+    // char file_path2[] = "./IntervalSets/Random_Uniform_10002";
 
-    // char file_path1[] = "./DataSets/brFlightsA_10000.txt";
-    // char file_path2[] = "./DataSets/brFlightsB_10000.txt";
+    // char file_path1[] = "./IntervalSets/brFlights/brFlightsA_100.txt";
+    // char file_path2[] = "./IntervalSets/brFlights/brFlightsB_100.txt";
 
-    // char file_path1[] = "./DataSets/brFlightsA_100000.txt";
-    // char file_path2[] = "./DataSets/brFlightsB_100000.txt";
+    // char file_path1[] = "./IntervalSets/brFlights/brFlightsA_1000.txt";
+    // char file_path2[] = "./IntervalSets/brFlights/brFlightsB_1000.txt";
 
-    // char file_path1[] = "./DataSets/brFlightsA_1000000.txt";
-    // char file_path2[] = "./DataSets/brFlightsB_1000000.txt";
+    // char file_path1[] = "./IntervalSets/brFlights/brFlightsA_10000.txt";
+    // char file_path2[] = "./IntervalSets/brFlights/brFlightsB_10000.txt";
 
-    // char file_path1[] = "./DataSets/brFlightsA_500000.txt";
-    // char file_path2[] = "./DataSets/brFlightsB_500000.txt";
+    // char file_path1[] = "./IntervalSets/brFlights/brFlightsA_100000.txt";
+    // char file_path2[] = "./IntervalSets/brFlights/brFlightsB_100000.txt";
+
+    // char file_path1[] = "./IntervalSets/brFlights/brFlightsA_1000000.txt";
+    // char file_path2[] = "./IntervalSets/brFlights/brFlightsB_1000000.txt";
+
+    // char file_path1[] = "./IntervalSets/brFlights/brFlightsA_500000.txt";
+    // char file_path2[] = "./IntervalSets/brFlights/brFlightsB_500000.txt";
 
 
-    // char file_path1[] = "./DataSets/atusacA_1000.txt";
-    // char file_path2[] = "./DataSets/atusacB_1000.txt";
+    // char file_path1[] = "./IntervalSets/atusac/atusacA_100.txt";
+    // char file_path2[] = "./IntervalSets/atusac/atusacB_100.txt";
+
+    // char file_path1[] = "./IntervalSets/atusac/atusacA_1000.txt";
+    // char file_path2[] = "./IntervalSets/atusac/atusacB_1000.txt";
+
+    // char file_path1[] = "./IntervalSets/atusac/atusacA_10000.txt";
+    // char file_path2[] = "./IntervalSets/atusac/atusacB_10000.txt";
+
+    // char file_path1[] = "./IntervalSets/atusac/atusacA_100000.txt";
+    // char file_path2[] = "./IntervalSets/atusac/atusacB_100000.txt";
+
+    // char file_path1[] = "./IntervalSets/atusac/atusacA_500000.txt";
+    // char file_path2[] = "./IntervalSets/atusac/atusacB_500000.txt";
+
+    // char file_path1[] = "./IntervalSets/atusac/atusacA_1000000.txt";
+    // char file_path2[] = "./IntervalSets/atusac/atusacB_1000000.txt";
 
 
     char file_path1[] = "./../../../data/intervals/invertedIndex/invertedIndexA10_10000000.txt";
@@ -216,6 +237,17 @@ int main(){
     // cout << "FIN" << endl;
     // writeOutput(r2, "Resultado_1000_BF.txt");
 
+
+    auto start_exp_dip = std::chrono::high_resolution_clock::now();
+    list< Interval<int> > r2;
+    intersectionDIP<int>(H1, H2, &r2, 2);
+    auto end_exp_dip = std::chrono::high_resolution_clock::now();
+    auto elapsed_exp_dip = std::chrono::duration_cast<std::chrono::nanoseconds>(end_exp_dip - start_exp_dip);
+
+    cout << "Time execution: " << elapsed_exp_dip.count() * 10e-9 << "[ns]" << endl;
+    cout << "Size of intersection classic DIP: " << r2.size() << endl;
+    cout << "FIN" << endl;
+    r2.clear();
 
     freeHeap(H1);
     freeHeap(H2);

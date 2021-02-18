@@ -193,7 +193,7 @@ template int intervalBarbayKenyon<int>(IntervalSet<int>* sets[], int k, list< In
 
 
 template <typename T>
-void classicIntersectionDIP(IntervalSet <T> *set1, IntervalSet <T> *set2, list< Interval <T> > *intersections){
+void classicIntersectionDIP(IntervalSet <T> *set1, IntervalSet <T> *set2, list< Interval <T> > *intersections, int method){
 
     IntervalSet <T> *A, *B;
     // Small size set
@@ -211,13 +211,23 @@ void classicIntersectionDIP(IntervalSet <T> *set1, IntervalSet <T> *set2, list< 
     for (auto x: A->elements){
         // int size_intersections = intersections->size;
         int last_comparision = 0;
-        int last_visited = intervalLinearSearch(B->elements, B->size, x, intersections, init_position, &last_comparision);
+        int last_visited;
+        Interval<T> intersection;
+        if (method == 1){
+            init_position = predecessorExponentialSearch(B->elements, B->size, x, init_position);
+            last_visited = intervalLinearSearch(B->elements, B->size, x, intersections, init_position, &last_comparision);
+            // last_visited = intervalExponentialSearch(B->elements, B->size, x, &intersection, init_position, &last_comparision, 0, intersections);
+        }
+        else {
+            last_visited = intervalLinearSearch(B->elements, B->size, x, intersections, init_position, &last_comparision);
+        }
+
         if (!last_comparision){
             init_position = last_visited;
         }
     }
 }
-void classicIntersectionDIP(IntervalSet <int> *set1, IntervalSet <int> *set2, list< Interval <int> > &intersections);
+void classicIntersectionDIP(IntervalSet <int> *set1, IntervalSet <int> *set2, list< Interval <int> > &intersections, int method);
 
 // method 0: Barbay and Kenyon, 1: Linear Search
 template <typename T>
@@ -243,7 +253,19 @@ void intersectionDIP(heap< Partition<T>*, vector< Partition<T>* >, orderInterval
             // IntervalSet<T> p1 = i.set;
             for (Partition<T> *j: partitions2){
                 // IntervalSet<T> p2 = j.set;
-                classicIntersectionDIP(&(i->set), &(j->set), intersection);
+                classicIntersectionDIP(&(i->set), &(j->set), intersection, 0);
+                // cout << "***Intersection Between partitions " << i.id << " and " << j.id << endl;
+            }
+        }
+    }
+
+    else if(method == 2){
+        cout << "---------> method: " << "Classic Exp Intersection" << endl;
+        for (Partition<T> *i: partitions1){
+            // IntervalSet<T> p1 = i.set;
+            for (Partition<T> *j: partitions2){
+                // IntervalSet<T> p2 = j.set;
+                classicIntersectionDIP(&(i->set), &(j->set), intersection, 1);
                 // cout << "***Intersection Between partitions " << i.id << " and " << j.id << endl;
             }
         }
