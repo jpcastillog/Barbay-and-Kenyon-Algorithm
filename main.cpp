@@ -159,11 +159,11 @@ int main(){
     // char file_path2[] = "./IntervalSets/atusac/atusacB_1000000.txt";
 
 
-    // char file_path1[] = "./../../../data/intervals/invertedIndex/invertedIndexA10_10000000.txt";
-    // char file_path2[] = "./../../../data/intervals/invertedIndex/invertedIndexB10_10000000.txt";
+    char file_path1[] = "./../../../data/intervals/invertedIndex/invertedIndexA10_10000000.txt";
+    char file_path2[] = "./../../../data/intervals/invertedIndex/invertedIndexB10_10000000.txt";
 
-    char file_path1[] = "./../../../data/intervals/invertedIndex/invertedIndexA10_1000000.txt";
-    char file_path2[] = "./../../../data/intervals/invertedIndex/invertedIndexB10_1000000.txt";
+    // char file_path1[] = "./../../../data/intervals/invertedIndex/invertedIndexA10_1000000.txt";
+    // char file_path2[] = "./../../../data/intervals/invertedIndex/invertedIndexB10_1000000.txt";
 
 
     // Se cargan los conjuntos de intervalos
@@ -176,6 +176,7 @@ int main(){
     heap< Partition<int>*, vector< Partition <int>* >, orderIntervalsHeap<int> > H1;
     heap< Partition<int>*, vector< Partition <int>* >, orderIntervalsHeap<int> > H2;
 
+
     // heap< numbersPartition<int>*, vector< numbersPartition <int>* >, greater< numbersPartition <int>* > > NH1;
     // heap< numbersPartition<int>*, vector< numbersPartition <int>* >, greater< numbersPartition <int>* > > NH2;
 
@@ -187,6 +188,9 @@ int main(){
 
     createDIP<int> (&s1, H1);
     createDIP<int> (&s2, H2);
+
+    // s1.elements.clear();
+    // s2.elements.clear();
 
     cout << "Partitions set 1 size: " << H1.size() << endl;
     cout << "Partitions set 2 size: " << H2.size() << endl;
