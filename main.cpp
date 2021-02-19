@@ -165,8 +165,11 @@ int main(){
     // char file_path1[] = "./../../../data/intervals/invertedIndex/invertedIndexA10_1000000.txt";
     // char file_path2[] = "./../../../data/intervals/invertedIndex/invertedIndexB10_1000000.txt";
 
-    char file_path1[] = "./../../../data/intervals/atusac/atusacA_500000.txt";
-    char file_path2[] = "./../../../data/intervals/atusac/atusacB_500000.txt";
+    char file_path1[] = "./../../../data/intervals/atusac/atusacA_100000.txt";
+    char file_path2[] = "./../../../data/intervals/atusac/atusacB_100000.txt";
+
+    // char file_path1[] = "./../../../data/intervals/atusac/atusacA_500000.txt";
+    // char file_path2[] = "./../../../data/intervals/atusac/atusacB_500000.txt";
 
     // char file_path1[] = "./../../../data/intervals/atusac/atusacA_1000000.txt";
     // char file_path2[] = "./../../../data/intervals/atusac/atusacB_1000000.txt";
