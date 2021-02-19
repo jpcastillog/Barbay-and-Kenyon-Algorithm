@@ -168,8 +168,8 @@ int main(){
     char file_path1[] = "./../../../data/intervals/atusac/atusacA_1000.txt";
     char file_path2[] = "./../../../data/intervals/atusac/atusacB_1000.txt";
 
-    char file_path1[] = "./../../../data/intervals/atusac/atusacA_10000.txt";
-    char file_path2[] = "./../../../data/intervals/atusac/atusacB_10000.txt";
+    // char file_path1[] = "./../../../data/intervals/atusac/atusacA_10000.txt";
+    // char file_path2[] = "./../../../data/intervals/atusac/atusacB_10000.txt";
 
     // char file_path1[] = "./../../../data/intervals/atusac/atusacA_100000.txt";
     // char file_path2[] = "./../../../data/intervals/atusac/atusacB_100000.txt";
