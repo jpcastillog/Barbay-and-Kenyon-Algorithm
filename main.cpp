@@ -158,12 +158,18 @@ int main(){
     // char file_path1[] = "./IntervalSets/atusac/atusacA_1000000.txt";
     // char file_path2[] = "./IntervalSets/atusac/atusacB_1000000.txt";
 
+    // char file_path1[] = "./IntervalSets/infectious/infectiousA_415912.txt";
+    // char file_path2[] = "./IntervalSets/infectious/infectiousB_415912.txt";
 
-    // char file_path1[] = "./../../../data/intervals/invertedIndex/invertedIndexA10_10000000.txt";
-    // char file_path2[] = "./../../../data/intervals/invertedIndex/invertedIndexB10_10000000.txt";
+    // char file_path1[] = "./IntervalSets/infectious/infectiousA_200000.txt";
+    // char file_path2[] = "./IntervalSets/infectious/infectiousB_200000.txt";
 
-    char file_path1[] = "./../../../data/intervals/invertedIndex/invertedIndexA100_500000.txt";
-    char file_path2[] = "./../../../data/intervals/invertedIndex/invertedIndexB100_500000.txt";
+
+    char file_path1[] = "./../../../data/intervals/invertedIndex/invertedIndexA10_1000000.txt";
+    // char file_path2[] = "./../../../data/intervals/invertedIndex/invertedIndexB10_1000000.txt";
+
+    // char file_path1[] = "./../../../data/intervals/invertedIndex/invertedIndexA100_1000000.txt";
+    char file_path2[] = "./../../../data/intervals/invertedIndex/invertedIndexB100_1000000.txt";
 
     // char file_path1[] = "./../../../data/intervals/atusac/atusacA_100.txt";
     // char file_path2[] = "./../../../data/intervals/atusac/atusacB_100.txt";
