@@ -245,9 +245,9 @@ int main(){
     list< Interval<int> > r;
     intersectionDIP<int>(H1, H2, &r, 0);
     auto end_dip = std::chrono::high_resolution_clock::now();
-    auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(end_dip - start_dip);
+    auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end_dip - start_dip);
     
-    cout << "Time execution: " << elapsed.count() << "[s]" << endl; 
+    cout << "Time execution: " << elapsed.count() * 10e-9 << "[s]" << endl; 
     cout << "Size of intersection DIP: " << r.size() << endl;
     cout << "FIN" << endl;
     r.clear();
@@ -259,9 +259,9 @@ int main(){
     list< Interval<int> > r1;
     intersectionDIP<int>(H1, H2, &r1, 1);
     auto end_classic_dip = std::chrono::high_resolution_clock::now();
-    auto elapsed_classic_dip = std::chrono::duration_cast<std::chrono::seconds>(end_classic_dip - start_classic_dip);
+    auto elapsed_classic_dip = std::chrono::duration_cast<std::chrono::nanoseconds>(end_classic_dip - start_classic_dip);
 
-    cout << "Time execution: " << elapsed_classic_dip.count() << "[s]" << endl;
+    cout << "Time execution: " << elapsed_classic_dip.count() * 10e-9 << "[s]" << endl;
     cout << "Size of intersection classic DIP: " << r1.size() << endl;
     cout << "FIN" << endl;
     r1.clear();
@@ -277,9 +277,9 @@ int main(){
     list< Interval<int> > r2;
     intersectionDIP<int>(H1, H2, &r2, 2);
     auto end_exp_dip = std::chrono::high_resolution_clock::now();
-    auto elapsed_exp_dip = std::chrono::duration_cast<std::chrono::seconds>(end_exp_dip - start_exp_dip);
+    auto elapsed_exp_dip = std::chrono::duration_cast<std::chrono::nanoseconds>(end_exp_dip - start_exp_dip);
 
-    cout << "Time execution: " << elapsed_exp_dip.count() << "[s]" << endl;
+    cout << "Time execution: " << elapsed_exp_dip.count() * 10e-9 << "[s]" << endl;
     cout << "Size of intersection classic DIP: " << r2.size() << endl;
     cout << "FIN" << endl;
     r2.clear();
