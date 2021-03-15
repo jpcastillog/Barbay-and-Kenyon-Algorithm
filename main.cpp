@@ -241,16 +241,16 @@ int main(){
     // cout << endl;
 
     // Perform de Barbay and Kenyon DiP intersection
-    // auto start_dip = std::chrono::high_resolution_clock::now();
-    // list< Interval<int> > r;
-    // intersectionDIP<int>(H1, H2, &r, 0);
-    // auto end_dip = std::chrono::high_resolution_clock::now();
-    // auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end_dip - start_dip);
+    auto start_dip = std::chrono::high_resolution_clock::now();
+    list< Interval<int> > r;
+    intersectionDIP<int>(H1, H2, &r, 0);
+    auto end_dip = std::chrono::high_resolution_clock::now();
+    auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end_dip - start_dip);
     
-    // cout << "Time execution: " << elapsed.count() * 10e-9 << "[s]" << endl; 
-    // cout << "Size of intersection DIP: " << r.size() << endl;
-    // cout << "FIN" << endl;
-    // r.clear();
+    cout << "Time execution: " << elapsed.count() * 10e-9 << "[s]" << endl; 
+    cout << "Size of intersection DIP: " << r.size() << endl;
+    cout << "FIN" << endl;
+    r.clear();
 
     // // writeOutput(r, "Resultado_1000_DIP.txt");
     
@@ -275,16 +275,16 @@ int main(){
     // writeOutput(r2, "Resultado_1000_BF.txt");
 
 
-    // auto start_exp_dip = std::chrono::high_resolution_clock::now();
-    // list< Interval<int> > r2;
-    // intersectionDIP<int>(H1, H2, &r2, 2);
-    // auto end_exp_dip = std::chrono::high_resolution_clock::now();
-    // auto elapsed_exp_dip = std::chrono::duration_cast<std::chrono::nanoseconds>(end_exp_dip - start_exp_dip);
+    auto start_exp_dip = std::chrono::high_resolution_clock::now();
+    list< Interval<int> > r2;
+    intersectionDIP<int>(H1, H2, &r2, 2);
+    auto end_exp_dip = std::chrono::high_resolution_clock::now();
+    auto elapsed_exp_dip = std::chrono::duration_cast<std::chrono::nanoseconds>(end_exp_dip - start_exp_dip);
 
-    // cout << "Time execution: " << elapsed_exp_dip.count() * 10e-9 << "[s]" << endl;
-    // cout << "Size of intersection classic DIP: " << r2.size() << endl;
-    // cout << "FIN" << endl;
-    // r2.clear();
+    cout << "Time execution: " << elapsed_exp_dip.count() * 10e-9 << "[s]" << endl;
+    cout << "Size of intersection classic DIP: " << r2.size() << endl;
+    cout << "FIN" << endl;
+    r2.clear();
 
     freeHeap(H1);
     freeHeap(H2);
