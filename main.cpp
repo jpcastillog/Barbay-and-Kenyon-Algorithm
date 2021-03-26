@@ -243,12 +243,14 @@ int main(){
     // Perform de Barbay and Kenyon DiP intersection
     auto start_dip = std::chrono::high_resolution_clock::now();
     list< Interval<int> > r;
-    intersectionDIP<int>(H1, H2, &r, 0);
+    int n_comparisions = 0;
+    intersectionDIP<int>(H1, H2, &r, 0, &n_comparisions);
     auto end_dip = std::chrono::high_resolution_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end_dip - start_dip);
     
     cout << "Time execution: " << elapsed.count() * 10e-9 << "[s]" << endl; 
-    cout << "Size of intersection DIP: " << r.size() << endl;
+    cout << "Size of intersection Barbay and Kenyon DIP: " << r.size() << endl;
+    cout << "Number of comparisions: " << n_comparisions << endl;
     cout << "FIN" << endl;
     r.clear();
 
@@ -257,12 +259,14 @@ int main(){
     // Perform de classic DiP intersection
     auto start_classic_dip = std::chrono::high_resolution_clock::now();
     list< Interval<int> > r1;
-    intersectionDIP<int>(H1, H2, &r1, 1);
+    int n_comparisions_classic = 0;
+    intersectionDIP<int>(H1, H2, &r1, 1, &n_comparisions_classic);
     auto end_classic_dip = std::chrono::high_resolution_clock::now();
     auto elapsed_classic_dip = std::chrono::duration_cast<std::chrono::nanoseconds>(end_classic_dip - start_classic_dip);
 
     cout << "Time execution: " << elapsed_classic_dip.count() * 10e-9 << "[s]" << endl;
     cout << "Size of intersection classic DIP: " << r1.size() << endl;
+    cout << "Number of comparisions: " << n_comparisions_classic << endl;
     cout << "FIN" << endl;
     r1.clear();
 
@@ -274,15 +278,17 @@ int main(){
     // cout << "FIN" << endl;
     // writeOutput(r2, "Resultado_1000_BF.txt");
 
-
+    // Perform de Exponential DiP intersection
     auto start_exp_dip = std::chrono::high_resolution_clock::now();
     list< Interval<int> > r2;
-    intersectionDIP<int>(H1, H2, &r2, 2);
+    int n_comparisions_exp = 0;
+    intersectionDIP<int>(H1, H2, &r2, 2, &n_comparisions_exp);
     auto end_exp_dip = std::chrono::high_resolution_clock::now();
     auto elapsed_exp_dip = std::chrono::duration_cast<std::chrono::nanoseconds>(end_exp_dip - start_exp_dip);
 
     cout << "Time execution: " << elapsed_exp_dip.count() * 10e-9 << "[s]" << endl;
-    cout << "Size of intersection classic DIP: " << r2.size() << endl;
+    cout << "Size of intersection Exponential DIP: " << r2.size() << endl;
+    cout << "Number of comparisions: " << n_comparisions_exp << endl;
     cout << "FIN" << endl;
     r2.clear();
 

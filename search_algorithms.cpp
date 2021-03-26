@@ -302,70 +302,57 @@ template int successor<int>(vector< Interval<int> > &arr, int low, int high, Int
 
 
 template<typename T> 
-int predecessorExponentialSearch(vector< Interval<T> > &arr, int n , Interval<T> &x, int initial_position){
+int predecessorExponentialSearch(vector< Interval<T> > &arr, int n , Interval<T> &x, int initial_position, int *n_comparisions){
     if ( x.low <= arr[initial_position].low)
         return initial_position;
     if (arr[n-1].low < x.low)
         return n-1;
-    
+    *n_comparisions++;
     int i = 1;
-    while ((i < n-initial_position) &&  (arr[i + initial_position].low < x.low)) 
+    while ((i < n-initial_position) &&  (arr[i + initial_position].low < x.low)){
         i = i*2;
+        *n_comparisions ++;
+    }
+        
     
-    return predecessorBinarySearch(arr, i/2, min(i, n-1-(initial_position-1)), x, n, initial_position);
+    return predecessorBinarySearch(arr, i/2, min(i, n-1-(initial_position-1)), x, n, initial_position, n_comparisions);
 }
-template int predecessorExponentialSearch<int>(vector< Interval<int> > &arr, int n , Interval<int> &x, int initial_position);
+template int predecessorExponentialSearch<int>(vector< Interval<int> > &arr, int n , Interval<int> &x, int initial_position, int *n_comparisions);
 
 
 template <typename T>
-int predecessorBinarySearch(vector< Interval <T> > &arr, int low, int high, Interval<T> &x, int size, int initial_position){
+int predecessorBinarySearch(vector< Interval <T> > &arr, int low, int high, Interval<T> &x, int size, int initial_position, int *n_comparisions){
     if (arr[low+initial_position].low <= x.low)
         return (low + initial_position);
-    // cout << arr[low].low << " " << x.low << endl;
+    *n_comparisions++;
     int ans = -1;
     while (low <= high) {
-        // cout << "dentro del while" << endl;
-        // cout << "low: " << low << " high: " << high << endl;
         int mid = low + (high - low + 1) / 2;
         Interval<T> midVal = arr[mid+initial_position];
  
         if (midVal.low < x.low) {
- 
-            // if mid is less than key, all elements
-            // in range [low, mid - 1] are <= key
-            // then we search in right side of mid
-            // so we now search in [mid + 1, high]
             ans = mid;
             low = mid + 1;
         }
         else if (midVal.low > x.low) {
- 
-            // if mid is greater than key, all elements
-            // in range [mid + 1, high] are >= key
-            // we note down the last found index, then 
-            // we search in left side of mid
-            // so we now search in [low, mid - 1]
             high = mid - 1;
         }
         else if (midVal.low == x.low) {
- 
-            // if mid is equal to key, all elements in
-            // range [low, mid] are <= key
-            // so we now search in [mid + 1, high]
-            // return mid;
             high = mid - 1;
         }
+        *n_comparisions++;
         // cout << "ans: " << ans << endl;
     } 
     return (ans+initial_position);
 }
-template int predecessorBinarySearch<int>(vector< Interval <int> > &arr, int low, int high, Interval<int> &x, int size, int initial_position);
+template int predecessorBinarySearch<int>(vector< Interval <int> > &arr, int low, int high, Interval<int> &x, int size, int initial_position, int *n_comparisions);
 
 
 // Return all intersections of x in arr
 template<typename T>
-int intervalLinearSearch(vector < Interval<T> > &arr, int n, Interval<T> &x, list< Interval<T> > *intersections, int initial_position, int *last_comparision){
+int intervalLinearSearch(vector < Interval<T> > &arr, int n, Interval<T> &x, list< Interval<T> > *intersections, int initial_position, int *last_comparision, int *n_comparisions){
     for(int i = initial_position; i < n; ++i){
+        *n_comparisions++;
         Interval<T> intersection;
         Interval<T> i_element = arr[i];
         int if_intersect = if_intersection(x, i_element, &intersection);
@@ -381,7 +368,7 @@ int intervalLinearSearch(vector < Interval<T> > &arr, int n, Interval<T> &x, lis
     }
     return n-1;
 }
-template int intervalLinearSearch<int>(vector < Interval<int> > &arr, int n, Interval<int> &x, list< Interval<int> > *intersections, int initial_position, int *last_comparision);
+template int intervalLinearSearch<int>(vector < Interval<int> > &arr, int n, Interval<int> &x, list< Interval<int> > *intersections, int initial_position, int *last_comparision, int *n_comparisions);
 
 template<typename T>
 int modifiedIntervalLinearSearch(vector< Interval <T> >& arr, int n, Interval<T> x, Interval<T>* intersection, int initial_position){
