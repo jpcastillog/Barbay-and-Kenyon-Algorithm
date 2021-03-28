@@ -189,8 +189,8 @@ int main(){
     // char file_path1[] = "./../../../data/intervals/atusac/atusacA_10000.txt";
     // char file_path2[] = "./../../../data/intervals/atusac/atusacB_10000.txt";
 
-    char file_path1[] = "./../../../data/intervals/atusac/atusacA_100000.txt";
-    char file_path2[] = "./../../../data/intervals/atusac/atusacB_100000.txt";
+    // char file_path1[] = "./../../../data/intervals/atusac/atusacA_100000.txt";
+    // char file_path2[] = "./../../../data/intervals/atusac/atusacB_100000.txt";
 
     // char file_path1[] = "./../../../data/intervals/atusac/atusacA_500000.txt";
     // char file_path2[] = "./../../../data/intervals/atusac/atusacB_500000.txt";
@@ -199,8 +199,8 @@ int main(){
     // char file_path2[] = "./../../../data/intervals/atusac/atusacB_1000000.txt";
 
 
-    // char file_path1[] = "./../../../data/intervals/invertedIndex/invertedIndexADefault_1000000.txt";
-    // char file_path2[] = "./../../../data/intervals/invertedIndex/invertedIndexBDefault_1000000.txt";
+    char file_path1[] = "./../../../data/intervals/invertedIndex/invertedIndexADefault_100.txt";
+    char file_path2[] = "./../../../data/intervals/invertedIndex/invertedIndexBDefault_100.txt";
 
 
     // Se cargan los conjuntos de intervalos
