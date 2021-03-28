@@ -161,6 +161,15 @@ int main(){
     // char file_path1[] = "./IntervalSets/infectious/infectiousA_415912.txt";
     // char file_path2[] = "./IntervalSets/infectious/infectiousB_415912.txt";
 
+    // char file_path1[] = "./IntervalSets/infectious/infectiousA_100.txt";
+    // char file_path2[] = "./IntervalSets/infectious/infectiousB_100.txt";
+
+    // char file_path1[] = "./IntervalSets/infectious/infectiousA_1000.txt";
+    // char file_path2[] = "./IntervalSets/infectious/infectiousB_1000.txt";
+
+    // char file_path1[] = "./IntervalSets/infectious/infectiousA_10000.txt";
+    // char file_path2[] = "./IntervalSets/infectious/infectiousB_10000.txt";
+
     // char file_path1[] = "./IntervalSets/infectious/infectiousA_200000.txt";
     // char file_path2[] = "./IntervalSets/infectious/infectiousB_200000.txt";
 
@@ -171,8 +180,8 @@ int main(){
     // char file_path1[] = "./../../../data/intervals/invertedIndex/invertedIndexA10_1000000.txt";
     // char file_path2[] = "./../../../data/intervals/invertedIndex/invertedIndexB100_1000000.txt";
 
-    // char file_path1[] = "./../../../data/intervals/atusac/atusacA_100.txt";
-    // char file_path2[] = "./../../../data/intervals/atusac/atusacB_100.txt";
+    char file_path1[] = "./../../../data/intervals/atusac/atusacA_100.txt";
+    char file_path2[] = "./../../../data/intervals/atusac/atusacB_100.txt";
 
     // char file_path1[] = "./../../../data/intervals/atusac/atusacA_1000.txt";
     // char file_path2[] = "./../../../data/intervals/atusac/atusacB_1000.txt";
@@ -190,8 +199,8 @@ int main(){
     // char file_path2[] = "./../../../data/intervals/atusac/atusacB_1000000.txt";
 
 
-    char file_path1[] = "./../../../data/intervals/invertedIndex/invertedIndexADefault_1000000.txt";
-    char file_path2[] = "./../../../data/intervals/invertedIndex/invertedIndexBDefault_1000000.txt";
+    // char file_path1[] = "./../../../data/intervals/invertedIndex/invertedIndexADefault_1000000.txt";
+    // char file_path2[] = "./../../../data/intervals/invertedIndex/invertedIndexBDefault_1000000.txt";
 
 
     // Se cargan los conjuntos de intervalos
@@ -243,7 +252,7 @@ int main(){
     // Perform de Barbay and Kenyon DiP intersection
     auto start_dip = std::chrono::high_resolution_clock::now();
     list< Interval<int> > r;
-    int n_comparisions = 0;
+    long int n_comparisions = 0;
     intersectionDIP<int>(H1, H2, &r, 0, &n_comparisions);
     auto end_dip = std::chrono::high_resolution_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end_dip - start_dip);
@@ -259,7 +268,7 @@ int main(){
     // Perform de classic DiP intersection
     auto start_classic_dip = std::chrono::high_resolution_clock::now();
     list< Interval<int> > r1;
-    int n_comparisions_classic = 0;
+    long int n_comparisions_classic = 0;
     intersectionDIP<int>(H1, H2, &r1, 1, &n_comparisions_classic);
     auto end_classic_dip = std::chrono::high_resolution_clock::now();
     auto elapsed_classic_dip = std::chrono::duration_cast<std::chrono::nanoseconds>(end_classic_dip - start_classic_dip);
@@ -281,7 +290,7 @@ int main(){
     // Perform de Exponential DiP intersection
     auto start_exp_dip = std::chrono::high_resolution_clock::now();
     list< Interval<int> > r2;
-    int n_comparisions_exp = 0;
+    long int n_comparisions_exp = 0;
     intersectionDIP<int>(H1, H2, &r2, 2, &n_comparisions_exp);
     auto end_exp_dip = std::chrono::high_resolution_clock::now();
     auto elapsed_exp_dip = std::chrono::duration_cast<std::chrono::nanoseconds>(end_exp_dip - start_exp_dip);

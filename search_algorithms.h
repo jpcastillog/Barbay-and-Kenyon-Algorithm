@@ -21,16 +21,16 @@ template<typename T>
 int if_intersection(Interval<T> a, Interval<T> b, Interval<T>* intersection);
 
 template<typename T>
-int intervalExponentialSearch(vector< Interval<T> > &arr, int n , Interval<T> &x, Interval<T>* intersection, int initial_position);
+int intervalExponentialSearch(vector< Interval<T> > &arr, int n , Interval<T> &x, Interval<T>* intersection, int initial_position, long int *n_comparisions);
 
 template<typename T>
 int intervalBinarySearch(vector< Interval<T> > &array, int low, int high, T x, int size, Interval<T>* intersection);
 
 template<typename T>
-int intervalLinearSearch(vector < Interval<T> > &arr, int n, Interval<T> &x, list< Interval<T> > *intersections, int initial_position, int *last_comparision, int *n_comparisions);
+int intervalLinearSearch(vector < Interval<T> > &arr, int n, Interval<T> &x, list< Interval<T> > *intersections, int initial_position, int *last_comparision, long int *n_comparisions);
 
 template<typename T> 
-int predecessorExponentialSearch(vector< Interval<T> > &arr, int n , Interval<T> &x, int initial_position, int *n_comparisions);
+int predecessorExponentialSearch(vector< Interval<T> > &arr, int n , Interval<T> &x, int initial_position, long int *n_comparisions);
 
 template <typename T>
 int predecessorBinarySearch(vector< Interval <T> > &arr, int low, int high, Interval<T> &x, int size, int initial_position);

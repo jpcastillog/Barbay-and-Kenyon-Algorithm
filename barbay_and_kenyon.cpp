@@ -101,7 +101,7 @@ template int forceBruteIntersection<int>(Set<int> *sets, int k, list<int> *inter
 
 
 template <typename T>
-int intervalBarbayKenyon(IntervalSet<T>* sets[] , int k, list< Interval<T> > *intersection, bool cout_) {
+int intervalBarbayKenyon(IntervalSet<T>* sets[] , int k, list< Interval<T> > *intersection, bool cout_, long int *n_comparisions) {
     
     Interval<T> e = sets[0]->elements[0]; // set eliminator element in [0,0], first element of first set
     Interval<T> original_e = sets[0]->elements[0];
@@ -114,7 +114,7 @@ int intervalBarbayKenyon(IntervalSet<T>* sets[] , int k, list< Interval<T> > *in
     while ( 1 ){
         Interval<T> intersect;
         // position of e in i-th set
-        int pos = intervalExponentialSearch(sets[i]->elements,  size, e, &intersect, sets[i]->pos);
+        int pos = intervalExponentialSearch(sets[i]->elements,  size, e, &intersect, sets[i]->pos, n_comparisions);
 
         Interval<T> element_intersection = sets[i] -> elements[pos];
         
@@ -169,11 +169,11 @@ int intervalBarbayKenyon(IntervalSet<T>* sets[] , int k, list< Interval<T> > *in
     }
     return 0;
 }
-template int intervalBarbayKenyon<int>(IntervalSet<int>* sets[], int k, list< Interval<int> > *intersection, bool cout_);
+template int intervalBarbayKenyon<int>(IntervalSet<int>* sets[], int k, list< Interval<int> > *intersection, bool cout_, long int *n_comparisions);
 
 
 template <typename T>
-void classicIntersectionDIP(IntervalSet <T> *set1, IntervalSet <T> *set2, list< Interval <T> > *intersections, int method, int *n_comparisions){
+void classicIntersectionDIP(IntervalSet <T> *set1, IntervalSet <T> *set2, list< Interval <T> > *intersections, int method, long int *n_comparisions){
 
     IntervalSet <T> *A, *B;
     // Small size set
@@ -210,14 +210,14 @@ void classicIntersectionDIP(IntervalSet <int> *set1, IntervalSet <int> *set2, li
 
 // method 0: Barbay and Kenyon, 1: Linear Search
 template <typename T>
-void intersectionDIP(heap< Partition<T>*, vector< Partition<T>* >, orderIntervalsHeap<T> > &partitions1, heap< Partition<T>*, vector< Partition<T>* >, orderIntervalsHeap<T> > &partitions2, list< Interval<T> > *intersection, int method, int *n_comparisions){
+void intersectionDIP(heap< Partition<T>*, vector< Partition<T>* >, orderIntervalsHeap<T> > &partitions1, heap< Partition<T>*, vector< Partition<T>* >, orderIntervalsHeap<T> > &partitions2, list< Interval<T> > *intersection, int method, long int *n_comparisions){
     // Perform Barbay and Kenyon Intersection
     if ( method == 0 ){
         cout << "---------> method: " << "Barbay and Kenyon" << endl;
         for (Partition<T> *i: partitions1){
             for (Partition<T> *j: partitions2){
                 IntervalSet<T>* sets_to_intersect [] = {&(i->set), &(j->set)};
-                intervalBarbayKenyon(sets_to_intersect, 2, intersection, false);
+                intervalBarbayKenyon(sets_to_intersect, 2, intersection, false, n_comparisions);
                 i->set.pos = 0;
                 j->set.pos = 0;
             }
@@ -243,7 +243,7 @@ void intersectionDIP(heap< Partition<T>*, vector< Partition<T>* >, orderInterval
     }
     
 }
-template void intersectionDIP<int>(heap< Partition<int>*, vector< Partition<int>* >, orderIntervalsHeap<int> > &partitions1, heap< Partition<int>*, vector< Partition<int>* >, orderIntervalsHeap<int> > &partitions2, list< Interval<int> > *intersection, int method, int *n_comparisions);
+template void intersectionDIP<int>(heap< Partition<int>*, vector< Partition<int>* >, orderIntervalsHeap<int> > &partitions1, heap< Partition<int>*, vector< Partition<int>* >, orderIntervalsHeap<int> > &partitions2, list< Interval<int> > *intersection, int method, long int *n_comparisions);
 
 
 template <typename T>
