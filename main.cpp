@@ -199,8 +199,8 @@ int main(){
     // char file_path2[] = "./../../../data/intervals/atusac/atusacB_1000000.txt";
 
 
-    char file_path1[] = "./../../../data/intervals/invertedIndex/invertedIndexADefault_500000.txt";
-    char file_path2[] = "./../../../data/intervals/invertedIndex/invertedIndexBDefault_500000.txt";
+    char file_path1[] = "./../../../data/intervals/invertedIndex/invertedIndexADefault_1000000.txt";
+    char file_path2[] = "./../../../data/intervals/invertedIndex/invertedIndexBDefault_1000000.txt";
 
 
     // Se cargan los conjuntos de intervalos
