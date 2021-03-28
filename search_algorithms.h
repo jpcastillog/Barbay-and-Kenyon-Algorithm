@@ -34,6 +34,7 @@ int predecessorExponentialSearch(vector< Interval<T> > &arr, int n , Interval<T>
 
 template <typename T>
 int predecessorBinarySearch(vector< Interval <T> > &arr, int low, int high, Interval<T> &x, int size, int initial_position);
+
 // template<typename T>
 // int if_intersection(Interval<T> a, Interval<T> b, Interval<T>* intersection);
 

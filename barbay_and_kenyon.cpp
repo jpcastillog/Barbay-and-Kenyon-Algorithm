@@ -110,10 +110,8 @@ int intervalBarbayKenyon(IntervalSet<T>* sets[] , int k, list< Interval<T> > *in
     int occr = 1;  // ocurrences of e
     int size = sets[i]->size;
     IntervalSet<T> actual_set; // Init actual elements and size of initial set
-    int j = 0;
 
     while ( 1 ){
-        // actual_set = sets[i];
         Interval<T> intersect;
         // position of e in i-th set
         int pos = intervalExponentialSearch(sets[i]->elements,  size, e, &intersect, sets[i]->pos);
@@ -137,31 +135,17 @@ int intervalBarbayKenyon(IntervalSet<T>* sets[] , int k, list< Interval<T> > *in
             // e is part of sets intersection      
             if (occr == k){
                 
-                // if ( e.high < original_e.high ){
-                // // if (e.high < actual_set.elements[pos].high){//sets[i].elements[pos].high){
-                //     e.low = e.high ;
-                //     // e.high = actual_set.elements[pos].high; //sets[i].elements[pos].high;
-                //     e.high = original_e.high;
-                //     if (cout_) cout << "1nuevo e: [" << e.low << "," << e.high << "]\n";
-                //     sets[i].pos = pos;
-
-                // }
-                
-                // if (e.high < sets[i]->elements[pos].high){//sets[i].elements[pos].high){
                 if (e.high < element_intersection.high){
                     e.low = e.high ;
                     e.high = element_intersection.high; //sets[i].elements[pos].high;
                     sets[i]->pos = pos;
-                    //  i = (i+1)%k};
                 }
                 else{
                     if ((pos+1) > next_set_size-1){
                         return 0;
                     }   
                     e = sets[i]->elements[pos+1];
-                    // original_e = sets[i]->elements[pos+1];
                     sets[i]->pos = pos+1;
-                    // i = (i+1)%k;
                 }
             }
             
@@ -174,17 +158,13 @@ int intervalBarbayKenyon(IntervalSet<T>* sets[] , int k, list< Interval<T> > *in
             else{   
                 // pos it's a succesor index of e
                 e = element_intersection;
-                // original_e = sets[i]->elements[pos];
-                sets[i]->pos = pos;
-                // i = (i+1)%k;          
+                sets[i]->pos = pos;          
             }
             // restart occurrences
             occr = 1;
         }
         // Cyclical index of sets
-        // sets[j]->pos++;
         i = (i+1)%k;
-        j = (j+1)%k;
         size = sets[i]->size;
     }
     return 0;
