@@ -177,8 +177,8 @@ int main(){
     // char file_path1[] = "./../../../data/intervals/invertedIndex/invertedIndexA10_1000000.txt";
     // char file_path2[] = "./../../../data/intervals/invertedIndex/invertedIndexB10_1000000.txt";
 
-    char file_path1[] = "./../../../data/intervals/invertedIndex/invertedIndexA100_1000000.txt";
-    char file_path2[] = "./../../../data/intervals/invertedIndex/invertedIndexB100_1000000.txt";
+    char file_path2[] = "./../../../data/intervals/invertedIndex/invertedIndexB100_500000.txt";
+    char file_path1[] = "./../../../data/intervals/invertedIndex/invertedIndexA100_500000.txt";
 
     // char file_path1[] = "./../../../data/intervals/invertedIndex/invertedIndexA10_1000000.txt";
     // char file_path2[] = "./../../../data/intervals/invertedIndex/invertedIndexB100_1000000.txt";
